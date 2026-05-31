@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Espace Membres — Service de Chirurgie Viscérale Tataouine</title>
+<link rel="icon" type="image/png" href="https://lh3.googleusercontent.com/d/1XdOvVO4nOrTEedL5I0Cc1hPjITnrcsId"/>
+<style>
+:root {
+  --blue-deep:#0d3b6e;--blue-mid:#1a5fa8;--blue-light:#4a9fd4;
+  --blue-pale:#e8f4fb;--blue-ultra:#f0f8ff;--gray-dark:#2c3e50;
+  --gray-mid:#5a6a7a;--accent:#c8dff0;--white:#ffffff;
+  --green:#1a7a4a;--green-light:#e8f8f0;--red:#c0392b;--red-light:#fff0f0;
+  --gold:#e6b800;--gold-light:#fff8e6;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'Segoe UI',Tahoma,sans-serif;background:#f0f4f8;color:var(--gray-dark);min-height:100vh;}
+
+.topbar{background:var(--blue-deep);padding:14px 30px;display:flex;align-items:center;justify-content:space-between;}
+.topbar-title{color:#fff;font-size:15px;font-weight:600;display:flex;align-items:center;gap:10px;}
+.topbar-title img{width:36px;height:36px;object-fit:contain;filter:brightness(0) invert(1);border-radius:50%;}
+.topbar-user{color:rgba(255,255,255,0.8);font-size:13px;display:flex;align-items:center;gap:12px;}
+.btn-logout{background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.3);color:#fff;padding:6px 14px;border-radius:20px;cursor:pointer;font-size:12px;transition:all 0.2s;}
+.btn-logout:hover{background:rgba(255,255,255,0.22);}
+.back-link{color:rgba(255,255,255,0.7);font-size:12px;text-decoration:none;}
+.back-link:hover{color:#fff;}
+
+.login-page{min-height:100vh;background:linear-gradient(135deg,var(--blue-deep) 0%,var(--blue-mid) 60%,var(--blue-light) 100%);display:flex;align-items:center;justify-content:center;padding:20px;}
+.login-card{background:#fff;border-radius:20px;padding:48px 40px;width:100%;max-width:400px;box-shadow:0 20px 60px rgba(0,0,0,0.2);text-align:center;}
+.login-logo{width:100px;height:100px;object-fit:contain;filter:brightness(0) saturate(0) opacity(0.12);margin:0 auto 20px;display:block;}
+.login-title{font-size:22px;font-weight:700;color:var(--blue-deep);margin-bottom:6px;}
+.login-sub{font-size:13px;color:var(--gray-mid);margin-bottom:32px;}
+.btn-login{width:100%;padding:14px;background:var(--blue-mid);color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:600;cursor:pointer;transition:background 0.2s;margin-top:8px;}
+.btn-login:hover{background:var(--blue-deep);}
+.login-error{background:var(--red-light);color:var(--red);border:1px solid #f5c0bc;border-radius:8px;padding:10px 14px;font-size:13px;margin-top:12px;display:none;}
+
+.app{display:none;flex-direction:column;min-height:100vh;}
+.app.visible{display:flex;}
+.app-body{display:flex;flex:1;}
+
+.sidebar{width:230px;background:var(--white);border-right:1px solid var(--accent);padding:20px 0;flex-shrink:0;}
+.sidebar-section{padding:8px 20px 4px;font-size:10px;text-transform:uppercase;letter-spacing:0.12em;color:var(--gray-mid);font-weight:600;}
+.sidebar-link{display:flex;align-items:center;gap:10px;padding:11px 20px;font-size:14px;color:var(--gray-dark);text-decoration:none;cursor:pointer;transition:all 0.15s;border-left:3px solid transparent;}
+.sidebar-link:hover{background:var(--blue-ultra);color:var(--blue-mid);}
+.sidebar-link.active{background:var(--blue-pale);color:var(--blue-mid);border-left-color:var(--blue-mid);font-weight:600;}
+.sidebar-icon{font-size:18px;width:22px;text-align:center;}
+.badge{background:var(--red);color:#fff;border-radius:10px;font-size:10px;padding:2px 7px;margin-left:auto;}
+.badge-gold{background:var(--gold);color:#5a3a00;}
+
+.content{flex:1;padding:30px;overflow-y:auto;}
+.page{display:none;}
+.page.active{display:block;}
+.page-title{font-size:22px;font-weight:700;color:var(--blue-deep);margin-bottom:6px;}
+.page-sub{font-size:13px;color:var(--gray-mid);margin-bottom:28px;}
+
+.card{background:#fff;border:1px solid var(--accent);border-radius:14px;padding:24px;margin-bottom:20px;}
+.card-title{font-size:15px;font-weight:600;color:var(--blue-deep);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+
+.btn{padding:10px 20px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;border:none;transition:all 0.2s;font-family:inherit;}
+.btn-primary{background:var(--blue-mid);color:#fff;}
+.btn-primary:hover{background:var(--blue-deep);}
+.btn-success{background:var(--green);color:#fff;}
+.btn-success:hover{background:#145e38;}
+.btn-danger{background:var(--red);color:#fff;}
+.btn-danger:hover{background:#9b2b20;}
+.btn-warning{background:var(--gold);color:#5a3a00;}
+.btn-sm{padding:6px 14px;font-size:12px;}
+
+.field-group{margin-bottom:16px;}
+.field-group label{font-size:12px;font-weight:600;color:var(--gray-mid);text-transform:uppercase;letter-spacing:0.08em;display:block;margin-bottom:6px;}
+.field-group input,.field-group select,.field-group textarea{width:100%;padding:10px 14px;border:1.5px solid var(--accent);border-radius:8px;font-size:14px;font-family:inherit;background:var(--blue-ultra);transition:border-color 0.2s;}
+.field-group input:focus,.field-group select:focus,.field-group textarea:focus{outline:none;border-color:var(--blue-mid);background:#fff;}
+
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.grid-3{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:14px;}
+
+.member-mini{background:var(--blue-ultra);border:1px solid var(--accent);border-radius:10px;padding:14px;text-align:center;}
+.member-mini .m-photo{width:70px;height:80px;border-radius:8px;object-fit:cover;margin:0 auto 10px;display:block;background:var(--accent);}
+.m-avatar{width:70px;height:80px;border-radius:8px;background:var(--blue-pale);display:flex;align-items:center;justify-content:center;font-size:22px;margin:0 auto 10px;}
+.m-name{font-size:13px;font-weight:600;color:var(--blue-deep);}
+.m-role-label{font-size:11px;color:var(--gray-mid);margin-top:3px;}
+.m-badge{font-size:10px;padding:2px 8px;border-radius:10px;display:inline-block;margin-top:5px;}
+.role-infirmier{background:#e8f4fb;color:var(--blue-mid);}
+.role-aide{background:#f0eafc;color:#6a3ab2;}
+.role-secretaire{background:var(--green-light);color:var(--green);}
+.role-medecin{background:#fff8e6;color:#8a5a00;}
+.role-admin{background:#ffe8e8;color:var(--red);}
+
+.actu-card{background:#fff;border:1px solid var(--accent);border-radius:12px;overflow:hidden;margin-bottom:16px;}
+.actu-img{width:100%;max-height:none;object-fit:contain;display:block;background:#f0f4f8;cursor:pointer;transition:opacity 0.2s;}.actu-img:hover{opacity:0.9;}
+.actu-body{padding:16px;}
+.actu-meta{font-size:11px;color:var(--gray-mid);margin-bottom:6px;}
+.actu-caption{font-size:14px;color:var(--gray-dark);line-height:1.6;}
+
+.msg-card{border:1px solid var(--accent);border-radius:10px;padding:16px;margin-bottom:12px;background:var(--blue-ultra);}
+.msg-card.unread{border-left:3px solid var(--blue-mid);background:var(--blue-pale);}
+.msg-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
+.msg-from{font-size:12px;font-weight:600;color:var(--blue-mid);}
+.msg-anon{color:var(--gray-mid);font-style:italic;}
+.msg-date{font-size:11px;color:var(--gray-mid);}
+.msg-text{font-size:14px;color:var(--gray-dark);line-height:1.6;}
+
+.vote-card{border:2px solid var(--gold);border-radius:12px;padding:16px;margin-bottom:12px;background:var(--gold-light);cursor:pointer;transition:all 0.2s;display:flex;align-items:center;gap:14px;}
+.vote-card:hover{background:#fff3c0;transform:translateY(-2px);}
+.vote-card.selected{background:#ffd700;border-color:#b8860b;}
+.vote-img{width:56px;height:64px;border-radius:8px;object-fit:cover;flex-shrink:0;}
+.vote-name{font-size:15px;font-weight:600;color:#5a3a00;}
+.vote-role-txt{font-size:12px;color:#8a6a00;}
+.vote-arrow{margin-left:auto;font-size:20px;color:var(--gold);}
+
+.winner-banner{background:linear-gradient(135deg,#b8860b,var(--gold));border-radius:14px;padding:28px;text-align:center;margin-bottom:24px;color:#fff;}
+.winner-banner .wt{font-size:11px;letter-spacing:0.15em;text-transform:uppercase;opacity:0.85;margin-bottom:10px;}
+.winner-banner .wn{font-size:26px;font-weight:700;}
+
+.alert{padding:12px 16px;border-radius:8px;font-size:13px;margin-bottom:16px;}
+.alert-info{background:var(--blue-pale);color:var(--blue-mid);border:1px solid var(--accent);}
+.alert-success{background:var(--green-light);color:var(--green);border:1px solid #a8e0c0;}
+.alert-warning{background:var(--gold-light);color:#8a5a00;border:1px solid #f0d080;}
+.alert-danger{background:var(--red-light);color:var(--red);border:1px solid #f5c0bc;}
+
+.stat-row{display:flex;gap:14px;margin-bottom:24px;flex-wrap:wrap;}
+.stat-box{background:var(--blue-ultra);border:1px solid var(--accent);border-radius:10px;padding:16px 20px;flex:1;min-width:120px;}
+.stat-box .sn{font-size:28px;font-weight:700;color:var(--blue-mid);line-height:1;}
+.stat-box .sl{font-size:12px;color:var(--gray-mid);margin-top:4px;}
+
+.note-box{background:#fff8e6;border:1px solid #f0d080;border-left:4px solid var(--gold);border-radius:10px;padding:14px 16px;font-size:13px;color:#5a4a00;margin-bottom:20px;line-height:1.6;}
+
+
+/* ── MOBILE FIXES ── */
+@media (max-width: 768px) {
+  .topbar { padding: 10px 14px; flex-wrap: wrap; gap: 8px; }
+  .topbar-title { font-size: 12px; }
+  .topbar-user { font-size: 11px; gap: 8px; }
+  .app-body { flex-direction: column; }
+  .sidebar { 
+    width: 100% !important; 
+    display: flex; 
+    flex-direction: row; 
+    flex-wrap: wrap;
+    padding: 8px; 
+    border-right: none; 
+    border-bottom: 1px solid var(--accent);
+    gap: 4px;
+  }
+  .sidebar-section { display: none !important; }
+  .sidebar-link { 
+    padding: 8px 10px; 
+    font-size: 11px; 
+    border-left: none !important;
+    border-bottom: 2px solid transparent !important;
+    border-radius: 6px;
+    flex-direction: column;
+    gap: 2px;
+    text-align: center;
+  }
+  .sidebar-link.active { 
+    background: var(--blue-pale); 
+    border-bottom-color: var(--blue-mid) !important; 
+  }
+  .sidebar-icon { font-size: 16px; width: auto; }
+  .sidebar-link span:not(.sidebar-icon):not(.badge) { font-size: 10px; }
+  .badge { margin-left: 0; }
+  .content { padding: 16px; }
+  .page-title { font-size: 18px; }
+  .grid-2 { grid-template-columns: 1fr !important; }
+  .grid-3 { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)) !important; }
+  .card { padding: 16px; }
+  .stat-row { gap: 8px; }
+  .stat-box { padding: 12px; min-width: 80px; }
+  .stat-box .sn { font-size: 22px; }
+  .vote-card { padding: 12px; gap: 10px; }
+  .vote-name { font-size: 13px; }
+  .winner-banner { padding: 20px 16px; }
+  .winner-banner .wn { font-size: 20px; }
+  div[style*="display:flex;gap:36px"] { flex-direction: column !important; gap: 20px !important; }
+  div[style*="display:flex;gap:20px;align-items:center"] { flex-direction: column !important; }
+  .msg-card { padding: 12px; }
+  .msg-header { flex-direction: column; gap: 4px; align-items: flex-start; }
+}
+@media (max-width: 480px) {
+  .sidebar-link span:not(.sidebar-icon):not(.badge) { display: none; }
+  .sidebar-icon { font-size: 20px; }
+  .sidebar-link { padding: 10px 14px; }
+}
+
+@media(max-width:700px){
+  .sidebar{width:56px;}
+  .sidebar-link span,.sidebar-section{display:none;}
+  .sidebar-icon{width:100%;text-align:center;}
+  .grid-2{grid-template-columns:1fr;}
+  .content{padding:16px;}
+}
+
+/* ── LIGHTBOX ── */
+.lightbox-overlay {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.92);
+  z-index: 9999;
+  align-items: center;
+  justify-content: center;
+  cursor: zoom-out;
+}
+.lightbox-overlay.open { display: flex; }
+.lightbox-overlay img {
+  max-width: 95vw;
+  max-height: 95vh;
+  object-fit: contain;
+  border-radius: 4px;
+  box-shadow: 0 0 60px rgba(0,0,0,0.5);
+}
+.lightbox-close {
+  position: fixed;
+  top: 16px; right: 20px;
+  color: #fff;
+  font-size: 36px;
+  cursor: pointer;
+  line-height: 1;
+  opacity: 0.8;
+  transition: opacity 0.2s;
+  z-index: 10000;
+  background: none;
+  border: none;
+  padding: 0;
+}
+.lightbox-close:hover { opacity: 1; }
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div class="login-page" id="loginPage">
+  <div class="login-card">
+    <img src="https://lh3.googleusercontent.com/d/1XdOvVO4nOrTEedL5I0Cc1hPjITnrcsId" class="login-logo" alt="Logo"/>
+    <div class="login-title">Espace Membres</div>
+    <div class="login-sub">Service de Chirurgie Viscérale & Digestive — Tataouine</div>
+    <div class="field-group">
+      <label>Nom d'utilisateur</label>
+      <input type="text" id="loginUser" placeholder="Votre identifiant" autocomplete="username"/>
+    </div>
+    <div class="field-group">
+      <label>Mot de passe</label>
+      <input type="password" id="loginPass" placeholder="••••••••" autocomplete="current-password" onkeypress="if(event.key==='Enter')doLogin()"/>
+    </div>
+    <button class="btn-login" onclick="doLogin()">Se connecter</button>
+    <div class="login-error" id="loginError">Identifiant ou mot de passe incorrect.</div>
+    <div style="margin-top:20px;"><a href="index.html" style="font-size:12px;color:var(--gray-mid);text-decoration:none;">← Retour au site public</a></div>
+  </div>
+</div>
+
+<!-- APP -->
+<div class="app" id="app">
+  <div class="topbar">
+    <div class="topbar-title">
+      <img src="https://lh3.googleusercontent.com/d/1XdOvVO4nOrTEedL5I0Cc1hPjITnrcsId" alt="Logo"/>
+      Espace Membres — Chirurgie Viscérale Tataouine
+    </div>
+    <div class="topbar-user">
+      <span id="topbarName">—</span>
+      <a href="index.html" class="back-link">🌐 Site public</a>
+      <button class="btn-logout" onclick="doLogout()">Déconnexion</button>
+    </div>
+  </div>
+
+  <div class="app-body">
+    <div class="sidebar" id="sidebar">
+      <div class="sidebar-section">Navigation</div>
+      <div class="sidebar-link active" onclick="showPage('accueil')"><span class="sidebar-icon">🏠</span><span>Accueil</span></div>
+      <div class="sidebar-link" onclick="showPage('actualites')"><span class="sidebar-icon">📸</span><span>Actualités</span></div>
+      <div class="sidebar-link" onclick="showPage('vote')"><span class="sidebar-icon">⭐</span><span>Vote du mois</span><span class="badge badge-gold" id="voteBadge" style="display:none">VOTE</span></div>
+      <div class="sidebar-link" onclick="showPage('message')"><span class="sidebar-icon">✉️</span><span>Envoyer message</span></div>
+      <div id="adminNav" style="display:none">
+        <div class="sidebar-section" style="margin-top:12px;">Administration</div>
+        <div class="sidebar-link" id="navEquipe" style="display:none" onclick="showPage('equipe')"><span class="sidebar-icon">👥</span><span>Gérer l'équipe</span></div>
+        <div class="sidebar-link" onclick="showPage('publier')"><span class="sidebar-icon">📤</span><span>Publier actualité</span></div>
+        <div class="sidebar-link" id="navMessages" style="display:none" onclick="showPage('admin-messages')"><span class="sidebar-icon">📬</span><span>Messages reçus</span><span class="badge" id="adminMsgBadge" style="display:none">0</span></div>
+      </div>
+    </div>
+
+    <div class="content">
+
+      <!-- ACCUEIL -->
+      <div class="page active" id="page-accueil">
+        <div class="page-title" id="welcomeTitle">Bienvenue</div>
+        <div class="page-sub">Tableau de bord</div>
+        <div class="stat-row" id="statRow"></div>
+        <div class="grid-2">
+          <div class="card"><div class="card-title">📸 Dernière actualité</div><div id="homeActuPreview" style="font-size:13px;color:var(--gray-mid);">Chargement...</div></div>
+          <div class="card"><div class="card-title">⭐ Vote du mois</div><div id="homeVoteStatus" style="font-size:13px;color:var(--gray-mid);">Chargement...</div></div>
+        </div>
+        <div class="card"><div class="card-title">👤 Mon profil</div><div id="myProfileContent"></div></div>
+      </div>
+
+      <!-- ACTUALITES -->
+      <div class="page" id="page-actualites">
+        <div class="page-title">📸 Actualités du Service</div>
+        <div class="page-sub">Photos partagées par la direction</div>
+        <div id="actuList"></div>
+      </div>
+
+      <!-- VOTE -->
+      <div class="page" id="page-vote">
+        <div class="page-title">⭐ Vote — Infirmier·ère du mois</div>
+        <div class="page-sub" id="voteMonthLabel"></div>
+        <div id="voteContent"></div>
+      </div>
+
+      <!-- MESSAGE -->
+      <div class="page" id="page-message">
+        <div class="page-title">✉️ Envoyer un message</div>
+        <div class="page-sub">Au Chef de Service — Dr. Masmoudi Abderrahmen</div>
+        <div class="note-box">
+          📌 <strong>Note importante :</strong> Vos messages sont envoyés <strong>exclusivement au Chef de Service (Admin 1)</strong> — Dr. Masmoudi Abderrahmen. Personne d'autre n'y a accès, pas même la Surveillante. Vous pouvez choisir d'envoyer avec votre nom ou de façon totalement anonyme.
+        </div>
+        <div class="card">
+          <div class="field-group">
+            <label>Type d'envoi</label>
+            <select id="msgType">
+              <option value="nom">Avec mon nom</option>
+              <option value="anonyme">🔒 Anonyme (secret)</option>
+            </select>
+          </div>
+          <div class="field-group">
+            <label>Votre message / demande</label>
+            <textarea id="msgText" rows="5" placeholder="Écrivez votre message ou demande ici..."></textarea>
+          </div>
+          <button class="btn btn-primary" onclick="sendMessage()">📤 Envoyer</button>
+          <div id="msgFeedback" style="margin-top:12px;"></div>
+        </div>
+      </div>
+
+      <!-- ADMIN MESSAGES -->
+      <div class="page" id="page-admin-messages">
+        <div class="page-title">📬 Messages reçus</div>
+        <div class="page-sub">Messages et demandes confidentiels de l'équipe</div>
+        <div id="adminMsgList"></div>
+      </div>
+
+      <!-- EQUIPE -->
+      <div class="page" id="page-equipe">
+        <div class="page-title">👥 Gestion de l'équipe</div>
+        <div class="page-sub">Créer, modifier et gérer les profils membres</div>
+        <div class="card">
+          <div class="card-title">➕ Créer un nouveau compte</div>
+          <div class="grid-2">
+            <div class="field-group"><label>Nom complet</label><input type="text" id="newName" placeholder="Prénom Nom"/></div>
+            <div class="field-group"><label>Nom d'utilisateur</label><input type="text" id="newUser" placeholder="prenom.nom"/></div>
+            <div class="field-group"><label>Mot de passe</label><input type="text" id="newPass" placeholder="Mot de passe"/></div>
+            <div class="field-group"><label>Rôle</label>
+              <select id="newRole">
+                <option value="infirmier">Infirmier·ère</option>
+                <option value="aide">Aide soignant·e</option>
+                <option value="secretaire">Secrétaire</option>
+              </select>
+            </div>
+          </div>
+          <div class="field-group"><label>Lien photo Google Drive (public)</label><input type="text" id="newPhoto" placeholder="https://drive.google.com/file/d/XXXXX/view"/></div>
+          <button class="btn btn-success" onclick="createMember()">✅ Créer le compte</button>
+          <div id="createFeedback" style="margin-top:10px;"></div>
+        </div>
+        <div class="card">
+          <div class="card-title">📋 Tous les membres</div>
+          <div class="grid-3" id="memberGrid"></div>
+        </div>
+      </div>
+
+      <!-- PUBLIER -->
+      <div class="page" id="page-publier">
+        <div class="page-title">📤 Publier une actualité</div>
+        <div class="page-sub">Partagez une photo avec toute l'équipe</div>
+        <div class="card">
+          <div class="alert alert-info">📌 <strong>Comment partager une photo :</strong> Ouvrez la photo dans Google Drive → Clic droit → "Obtenir le lien" → "Toute personne avec le lien" → copiez et collez ci-dessous.</div>
+          <div class="field-group" style="margin-top:16px;"><label>Lien Google Drive de la photo</label><input type="text" id="actuLink" placeholder="https://drive.google.com/file/d/XXXXX/view"/></div>
+          <div class="field-group"><label>Légende / Description</label><textarea id="actuCaption" rows="3" placeholder="Décrivez cette photo..."></textarea></div>
+          <button class="btn btn-primary" onclick="publishActu()">📸 Publier</button>
+          <div id="actuFeedback" style="margin-top:10px;"></div>
+        </div>
+        <div class="card">
+          <div class="card-title">🗂️ Actualités publiées</div>
+          <div id="adminActuList"></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+const KEY = 'chir_tat_v3';
+
+// ── DEFAULT DATA ──
+const DEFAULT_MEMBERS = [
+  // ADMIN 1
+  {id:'admin1',username:'admin',password:'11111991',name:'Dr. Masmoudi Abderrahmen',role:'chef',photo:'https://lh3.googleusercontent.com/d/1nBCk5xq2joeWRFCEZUqh8XYefWpQcE2r',level:1},
+  // Médecins
+  {id:'med1',username:'maalej.yassine',password:'Maalej@2024',name:'Dr. Yassine Maalej',role:'medecin',photo:'https://lh3.googleusercontent.com/d/1JkUJ-JEMOltGgvQ3oSp-B2cqmHGmEL5u',level:3},
+  {id:'med2',username:'maraach.walid',password:'Maraach@2024',name:'Dr. Walid Maraach',role:'medecin',photo:'https://lh3.googleusercontent.com/d/1hJdGkubA6PYWfogLdlbI5aMMrpV84IGr',level:3},
+  {id:'med3',username:'lessoued.ilyess',password:'Lessoued@2024',name:'Dr. Ilyess Lessoued',role:'medecin',photo:'https://lh3.googleusercontent.com/d/1zG8SvFQFbHZlXAzq2ElJHyZhKNvPAT9a',level:3},
+  {id:'med4',username:'benhssin.bassma',password:'BenHssin@2024',name:'Dr. Bassma Ben Hssin',role:'medecin',photo:'https://lh3.googleusercontent.com/d/18IFuRDf8vRwrSfCqyzVRD3vmE64i3iBn',level:3},
+  {id:'med5',username:'benayed.aymen',password:'BenAyed@2024',name:'Dr. Aymen Ben Ayed',role:'medecin',photo:'https://lh3.googleusercontent.com/d/1MQ6MWphk9nVwyiAtmE3ejvGvql87MxG_',level:3},
+  // Surveillante — ADMIN 2
+  {id:'surv1',username:'boudellaa.aicha',password:'Surv@Aicha2024',name:'Aicha Boudellaa',role:'surveillante',photo:'https://lh3.googleusercontent.com/d/1YLEZevSDBz566Q7l8PVTzyQPtQ6sVzT4',level:2},
+  // Secrétaires
+  {id:'sec1',username:'eljlidi.mbaraka',password:'Sec@Mbaraka24',name:'Mbaraka El Jlidi',role:'secretaire',photo:'',level:4},
+  {id:'sec2',username:'elghaffari.iness',password:'Sec@Iness24',name:'Iness El Ghaffari',role:'secretaire',photo:'',level:4},
+  // Infirmiers / Aides soignants
+  {id:'inf01',username:'tammag.zaid',password:'Inf@Zaid24',name:'Zaid Tammag',role:'infirmier',photo:'',level:4},
+  {id:'inf02',username:'liboudi.massoud',password:'Inf@Massoud24',name:'Massoud El Liboudi',role:'infirmier',photo:'',level:4},
+  {id:'inf03',username:'nasri.ichrak',password:'Inf@Ichrak24',name:'Ichrak El Nasri',role:'infirmier',photo:'',level:4},
+  {id:'inf04',username:'atallah.zaineb',password:'Inf@Zaineb24',name:'Zaineb Atallah',role:'infirmier',photo:'',level:4},
+  {id:'inf05',username:'bouchnag.leila',password:'Inf@Leila24',name:'Leila Bouchnag',role:'infirmier',photo:'',level:4},
+  {id:'inf06',username:'fitouri.amina',password:'Inf@Amina24',name:'Amina El Fitouri',role:'infirmier',photo:'',level:4},
+  {id:'inf07',username:'benaoun.abdelamajid',password:'Inf@Majid24',name:'Abdelamajid Ben Aoun',role:'infirmier',photo:'',level:4},
+  {id:'inf08',username:'lahmar.mohamed',password:'Inf@Mohamed24',name:'Mohamed Lahmar',role:'infirmier',photo:'',level:4},
+  {id:'inf09',username:'megbli.amel',password:'Inf@Amel24',name:'Amel El Megbli',role:'infirmier',photo:'',level:4},
+  {id:'inf10',username:'kaaroud.zaineb',password:'Inf@Kaaroud24',name:'Zaineb Kaaroud',role:'infirmier',photo:'',level:4},
+  {id:'inf11',username:'halmouss.abir',password:'Inf@Abir24',name:'Abir Halmouss',role:'infirmier',photo:'',level:4},
+  {id:'inf12',username:'marsit.khaoula',password:'Inf@Khaoula24',name:'Khaoula Marsit',role:'infirmier',photo:'',level:4},
+  {id:'inf13',username:'djhaidar.radhouan',password:'Inf@Radhouan24',name:'Radhouan Djhaidar',role:'infirmier',photo:'',level:4},
+  {id:'inf14',username:'marsit.sihem',password:'Inf@Sihem24',name:'Sihem Marsit',role:'infirmier',photo:'',level:4},
+  {id:'inf15',username:'elhafyan.sassiya',password:'Inf@Sassiya24',name:'Sassiya El Hafyan',role:'infirmier',photo:'',level:4},
+];
+
+function getData(){
+  const r=localStorage.getItem(KEY);
+  if(r){
+    const d=JSON.parse(r);
+    // Ensure all default members exist (add if missing)
+    DEFAULT_MEMBERS.forEach(dm=>{
+      if(!d.members.find(m=>m.id===dm.id)) d.members.push(dm);
+    });
+    return d;
+  }
+  return {members:[...DEFAULT_MEMBERS],actualites:[],messages:[],votes:{},winner:{}};
+}
+function save(d){localStorage.setItem(KEY,JSON.stringify(d));}
+
+// ── AUTH ──
+let CU=null;
+
+// ── SESSION PERSISTENCE ──
+function saveSession() {
+  if (CU) {
+    sessionStorage.setItem('chirurg_session', JSON.stringify({
+      id: CU.id,
+      username: CU.username,
+      ts: Date.now()
+    }));
+  }
+}
+
+function restoreSession() {
+  const raw = sessionStorage.getItem('chirurg_session');
+  if (!raw) return false;
+  const s = JSON.parse(raw);
+  // Session valid for 8 hours
+  if (Date.now() - s.ts > 8 * 60 * 60 * 1000) {
+    sessionStorage.removeItem('chirurg_session');
+    return false;
+  }
+  const d = getData();
+  const member = d.members.find(m => m.id === s.id);
+  if (!member) return false;
+  CU = member;
+  return true;
+}
+
+// Auto-save session on any interaction
+document.addEventListener('click', saveSession);
+document.addEventListener('touchstart', saveSession);
+
+
+// Auto-restore session on load
+window.addEventListener('DOMContentLoaded', function() {
+  if (restoreSession()) {
+    document.getElementById('loginPage').style.display='none';
+    document.getElementById('app').classList.add('visible');
+    document.getElementById('topbarName').textContent = CU.name;
+    if (CU.level <= 2) document.getElementById('adminNav').style.display = 'block';
+    if (CU.level === 1) {
+      document.getElementById('navEquipe').style.display = 'flex';
+      document.getElementById('navMessages').style.display = 'flex';
+    }
+    renderAll(); showPage('accueil');
+  }
+});
+
+function doLogin(){
+  const u=document.getElementById('loginUser').value.trim();
+  const p=document.getElementById('loginPass').value;
+  const d=getData();
+  const m=d.members.find(x=>x.username.toLowerCase()===u.toLowerCase()&&x.password===p);
+  if(!m){document.getElementById('loginError').style.display='block';return;}
+  CU=m;
+  document.getElementById('loginPage').style.display='none';
+  document.getElementById('app').classList.add('visible');
+  document.getElementById('topbarName').textContent=m.name;
+  document.getElementById('loginError').style.display='none';
+  // Show admin nav
+  if(m.level<=2) document.getElementById('adminNav').style.display='block';
+  if(m.level===1){document.getElementById('navEquipe').style.display='flex';document.getElementById('navMessages').style.display='flex';}
+  saveSession();renderAll();showPage('accueil');
+}
+
+function doLogout(){
+  CU=null;
+  sessionStorage.removeItem('chirurg_session');
+  document.getElementById('app').classList.remove('visible');
+  document.getElementById('loginPage').style.display='flex';
+  document.getElementById('loginUser').value='';
+  document.getElementById('loginPass').value='';
+  document.getElementById('adminNav').style.display='none';
+  document.getElementById('navEquipe').style.display='none';
+  document.getElementById('navMessages').style.display='none';
+}
+
+// ── NAV ──
+function showPage(n){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.sidebar-link').forEach(l=>l.classList.remove('active'));
+  const pg=document.getElementById('page-'+n);
+  if(pg)pg.classList.add('active');
+  const lk=document.querySelector('[onclick="showPage(\''+n+'\')"]');
+  if(lk)lk.classList.add('active');
+  if(n==='actualites')renderActualites();
+  if(n==='vote')renderVote();
+  if(n==='admin-messages')renderAdminMessages();
+  if(n==='equipe')renderEquipe();
+  if(n==='publier')renderAdminActu();
+}
+
+// ── HELPERS ──
+function driveUrl(link){
+  if(!link||link.trim()==='')return '';
+  const m=link.match(/\/d\/([A-Za-z0-9_-]+)/);
+  if(m)return'https://lh3.googleusercontent.com/d/'+m[1];
+  if(link.startsWith('https://lh3'))return link;
+  return link;
+}
+function roleLabel(r){return{chef:'Chef de Service',surveillante:'Surveillante',medecin:'Médecin',infirmier:'Infirmier·ère',aide:'Aide soignant·e',secretaire:'Secrétaire'}[r]||r;}
+function roleClass(r){return{chef:'role-admin',surveillante:'role-admin',medecin:'role-medecin',infirmier:'role-infirmier',aide:'role-aide',secretaire:'role-secretaire'}[r]||'role-infirmier';}
+function isVoteable(m){return['infirmier','aide','surveillante'].includes(m.role);}
+function canVote(m){return m.role!=='secretaire';}
+function currentMonth(){const n=new Date();return n.getFullYear()+'-'+String(n.getMonth()+1).padStart(2,'0');}
+function monthLabel(ym){const[y,mo]=ym.split('-');return['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'][parseInt(mo)-1]+' '+y;}
+function photoHtml(url,w,h,r){
+  const s=`width:${w}px;height:${h}px;border-radius:${r}px;object-fit:cover;display:block;`;
+  if(url)return`<img src="${url}" style="${s}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/><div style="${s}background:var(--blue-pale);display:none;align-items:center;justify-content:center;font-size:${Math.round(h/3)}px;">👤</div>`;
+  return`<div style="${s}background:var(--blue-pale);display:flex;align-items:center;justify-content:center;font-size:${Math.round(h/3)}px;">👤</div>`;
+}
+
+// ── RENDER ALL ──
+function renderAll(){renderAccueil();checkVoteBadge();checkMsgBadge();}
+
+// ── ACCUEIL ──
+function renderAccueil(){
+  const d=getData();
+  document.getElementById('welcomeTitle').textContent='Bienvenue, '+CU.name;
+  // Stats admin1 only
+  const sr=document.getElementById('statRow');
+  if(CU.level===1){
+    const unread=d.messages.filter(m=>!m.read).length;
+    sr.innerHTML=`
+      <div class="stat-box"><div class="sn">${d.members.length}</div><div class="sl">Membres</div></div>
+      <div class="stat-box"><div class="sn">${d.actualites.length}</div><div class="sl">Actualités</div></div>
+      <div class="stat-box"><div class="sn">${unread}</div><div class="sl">Messages non lus</div></div>
+      <div class="stat-box"><div class="sn">${d.members.filter(m=>isVoteable(m)).length}</div><div class="sl">Équipe soignante</div></div>`;
+  }else sr.innerHTML='';
+  // Dernière actu
+  const hap=document.getElementById('homeActuPreview');
+  if(d.actualites.length===0){hap.innerHTML='<span style="color:var(--gray-mid)">Aucune actualité publiée.</span>';}
+  else{const a=d.actualites[d.actualites.length-1];const pu=driveUrl(a.link);
+    hap.innerHTML=`${pu?`<img src="${pu}" style="width:100%;border-radius:8px;max-height:200px;object-fit:contain;background:#f0f4f8;" onerror="this.style.display='none'"/>`:''}<p style="margin-top:8px;font-size:13px;">${a.caption||''}</p><p style="font-size:11px;color:var(--gray-mid);margin-top:4px;">${a.date} — ${a.author}</p>`;}
+  // Vote
+  const hvs=document.getElementById('homeVoteStatus');
+  const mo=currentMonth();const votes=getData().votes[mo]||{};const hv=votes[CU.id];
+  if(hv){const w=d.members.find(m=>m.id===hv);hvs.innerHTML=`<div class="alert alert-success">✅ Vous avez voté pour <strong>${w?w.name:'?'}</strong>.</div>`;}
+  else if(!canVote(CU)){hvs.innerHTML='<span style="color:var(--gray-mid)">Les secrétaires ne participent pas au vote.</span>';}
+  else{hvs.innerHTML=`<div class="alert alert-warning">⭐ Vote ouvert ! <a href="#" onclick="showPage('vote')" style="color:var(--blue-mid)">Voter maintenant →</a></div>`;}
+  // Mon profil
+  const pu=driveUrl(CU.photo);
+  document.getElementById('myProfileContent').innerHTML=`<div style="display:flex;gap:20px;align-items:center;">${photoHtml(pu,80,90,10)}<div><div style="font-size:18px;font-weight:700;color:var(--blue-deep);">${CU.name}</div><div style="font-size:13px;color:var(--gray-mid);margin-top:4px;">${roleLabel(CU.role)}</div><div style="font-size:12px;color:var(--gray-mid);margin-top:2px;">Identifiant : <code>${CU.username}</code></div></div></div>`;
+}
+
+// ── ACTUALITES ──
+function renderActualites(){
+  const d=getData();const list=document.getElementById('actuList');
+  if(d.actualites.length===0){list.innerHTML='<div class="alert alert-info">Aucune actualité pour le moment.</div>';return;}
+  list.innerHTML=[...d.actualites].reverse().map(a=>{const pu=driveUrl(a.link);return`<div class="actu-card">${pu?`<img src="${pu}" class="actu-img" onclick="openLightbox('${pu}')" onerror="this.style.display='none'" alt="Photo — cliquer pour agrandir"/>`:''}  <div class="actu-body"><div class="actu-meta">📅 ${a.date} — ${a.author}</div><div class="actu-caption">${a.caption||''}</div></div></div>`;}).join('');
+}
+
+function publishActu(){
+  const link=document.getElementById('actuLink').value.trim();
+  const caption=document.getElementById('actuCaption').value.trim();
+  const fb=document.getElementById('actuFeedback');
+  if(!link){fb.innerHTML='<div class="alert alert-danger">Veuillez entrer un lien Google Drive.</div>';return;}
+  const d=getData();
+  d.actualites.push({id:Date.now(),link,caption,author:CU.name,date:new Date().toLocaleDateString('fr-FR',{day:'2-digit',month:'long',year:'numeric'})});
+  save(d);document.getElementById('actuLink').value='';document.getElementById('actuCaption').value='';
+  fb.innerHTML='<div class="alert alert-success">✅ Actualité publiée !</div>';renderAdminActu();
+}
+
+function renderAdminActu(){
+  const d=getData();const list=document.getElementById('adminActuList');if(!list)return;
+  if(d.actualites.length===0){list.innerHTML='<p style="color:var(--gray-mid);font-size:13px;">Aucune actualité.</p>';return;}
+  list.innerHTML=[...d.actualites].reverse().map((a,ri)=>{const idx=d.actualites.length-1-ri;const pu=driveUrl(a.link);
+    return`<div style="display:flex;align-items:center;gap:14px;padding:10px 0;border-bottom:1px solid var(--blue-pale);">${pu?`<img src="${pu}" style="width:60px;height:60px;object-fit:cover;border-radius:8px;" onerror="this.style.background='#ddd'"/>`:''}<div style="flex:1;"><div style="font-size:13px;font-weight:600;">${a.caption||'(sans légende)'}</div><div style="font-size:11px;color:var(--gray-mid);">${a.date}</div></div><button class="btn btn-danger btn-sm" onclick="deleteActu(${idx})">🗑️</button></div>`;
+  }).join('');
+}
+
+function deleteActu(idx){if(!confirm('Supprimer ?'))return;const d=getData();d.actualites.splice(idx,1);save(d);renderAdminActu();}
+
+// ── MESSAGES ──
+function sendMessage(){
+  const type=document.getElementById('msgType').value;
+  const text=document.getElementById('msgText').value.trim();
+  const fb=document.getElementById('msgFeedback');
+  if(!text){fb.innerHTML='<div class="alert alert-danger">Veuillez écrire un message.</div>';return;}
+  const d=getData();
+  d.messages.push({id:Date.now(),from:type==='anonyme'?null:CU.id,fromName:type==='anonyme'?'🔒 Anonyme':CU.name,text,date:new Date().toLocaleString('fr-FR',{day:'2-digit',month:'long',year:'numeric',hour:'2-digit',minute:'2-digit'}),read:false});
+  save(d);document.getElementById('msgText').value='';checkMsgBadge();
+  fb.innerHTML='<div class="alert alert-success">✅ Message envoyé au Chef de Service en toute confidentialité.</div>';
+}
+
+function renderAdminMessages(){
+  const d=getData();const list=document.getElementById('adminMsgList');
+  if(d.messages.length===0){list.innerHTML='<div class="alert alert-info">Aucun message reçu.</div>';return;}
+  d.messages.forEach(m=>m.read=true);save(d);
+  document.getElementById('adminMsgBadge').style.display='none';
+  list.innerHTML=[...d.messages].reverse().map(m=>`<div class="msg-card"><div class="msg-header"><span class="msg-from ${m.from?'':'msg-anon'}">${m.fromName}</span><span class="msg-date">${m.date}</span></div><div class="msg-text">${m.text}</div></div>`).join('');
+}
+
+function checkMsgBadge(){
+  if(!CU)return;
+  const d=getData();const u=d.messages.filter(m=>!m.read).length;
+  if(CU.level===1){const b=document.getElementById('adminMsgBadge');b.textContent=u;b.style.display=u>0?'inline':'none';}
+}
+
+// ── VOTE ──
+function checkVoteBadge(){
+  if(!CU)return;
+  const mo=currentMonth();const d=getData();
+  const hv=(d.votes[mo]||{})[CU.id];
+  const b=document.getElementById('voteBadge');
+  b.style.display=(!hv&&canVote(CU))?'inline':'none';
+}
+
+function renderVote(){
+  const d=getData();const mo=currentMonth();
+  const content=document.getElementById('voteContent');
+  document.getElementById('voteMonthLabel').textContent=monthLabel(mo);
+  // Winner previous month
+  const pd=new Date();pd.setDate(0);
+  const pm=pd.getFullYear()+'-'+String(pd.getMonth()+1).padStart(2,'0');
+  let wHtml='';
+  if(d.winner[pm]){const w=d.members.find(m=>m.id===d.winner[pm]);if(w){const pu=driveUrl(w.photo);
+    wHtml=`<div class="winner-banner"><div class="wt">🏆 Infirmier·ère du mois — ${monthLabel(pm)}</div>${photoHtml(pu,90,100,10)}<div class="wn">${w.name}</div></div>`;}}
+  // Can vote?
+  if(!canVote(CU)){content.innerHTML=wHtml+'<div class="alert alert-info">Les secrétaires ne participent pas au vote.</div>';return;}
+  const votes=d.votes[mo]||{};const hv=votes[CU.id];
+  const counts={};Object.values(votes).forEach(v=>{counts[v]=(counts[v]||0)+1;});
+  const voteable=d.members.filter(m=>isVoteable(m));
+  if(hv){
+    const vw=d.members.find(m=>m.id===hv);
+    let resHtml='';
+    if(CU.level===1){resHtml=`<div class="card" style="margin-top:16px;"><div class="card-title">📊 Résultats provisoires (Admin)</div>${voteable.sort((a,b)=>(counts[b.id]||0)-(counts[a.id]||0)).map(m=>`<div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--blue-pale);font-size:14px;"><span>${m.name}</span><strong style="color:var(--gold);">${counts[m.id]||0} vote(s)</strong></div>`).join('')}</div>`;}
+    content.innerHTML=wHtml+`<div class="alert alert-success">✅ Vous avez voté pour <strong>${vw?vw.name:'?'}</strong> ce mois.</div>`+resHtml;return;
+  }
+  content.innerHTML=wHtml+`<div class="alert alert-warning">⭐ Votez pour un·e collègue soignant·e. Un seul vote, irréversible !</div><div style="margin-top:16px;">${voteable.map(m=>{const pu=driveUrl(m.photo);return`<div class="vote-card" onclick="castVote('${m.id}')"><div class="vote-img">${pu?`<img src="${pu}" style="width:56px;height:64px;border-radius:8px;object-fit:cover;" onerror="this.outerHTML='<span style=font-size:24px>👤</span>'"/>`:' <span style="font-size:24px">👤</span>'}</div><div><div class="vote-name">${m.name}</div><div class="vote-role-txt">${roleLabel(m.role)}</div></div><div class="vote-arrow">→</div></div>`;}).join('')}</div>`;
+}
+
+function castVote(tid){
+  const w=getData().members.find(m=>m.id===tid);
+  if(!confirm('Confirmer votre vote pour '+( w?w.name:'?')+' ?'))return;
+  const d=getData();const mo=currentMonth();
+  if(!d.votes[mo])d.votes[mo]={};
+  d.votes[mo][CU.id]=tid;
+  // Auto-set winner if 1st of month
+  const today=new Date();
+  if(today.getDate()===1){
+    const pd=new Date();pd.setDate(0);
+    const pm=pd.getFullYear()+'-'+String(pd.getMonth()+1).padStart(2,'0');
+    if(!d.winner[pm]&&d.votes[pm]){
+      const c={};Object.values(d.votes[pm]).forEach(v=>{c[v]=(c[v]||0)+1;});
+      const wid=Object.entries(c).sort((a,b)=>b[1]-a[1])[0]?.[0];
+      if(wid)d.winner[pm]=wid;
+    }
+  }
+  save(d);checkVoteBadge();renderVote();renderAccueil();
+}
+
+// ── EQUIPE ──
+function createMember(){
+  const name=document.getElementById('newName').value.trim();
+  const username=document.getElementById('newUser').value.trim();
+  const password=document.getElementById('newPass').value.trim();
+  const role=document.getElementById('newRole').value;
+  const photo=document.getElementById('newPhoto').value.trim();
+  const fb=document.getElementById('createFeedback');
+  if(!name||!username||!password){fb.innerHTML='<div class="alert alert-danger">Nom, identifiant et mot de passe obligatoires.</div>';return;}
+  const d=getData();
+  if(d.members.find(m=>m.username.toLowerCase()===username.toLowerCase())){fb.innerHTML='<div class="alert alert-danger">Cet identifiant existe déjà.</div>';return;}
+  d.members.push({id:'u'+Date.now(),username,password,name,role,photo,level:4});
+  save(d);
+  document.getElementById('newName').value='';document.getElementById('newUser').value='';document.getElementById('newPass').value='';document.getElementById('newPhoto').value='';
+  fb.innerHTML=`<div class="alert alert-success">✅ Compte créé — ID: <strong>${username}</strong> — MDP: <strong>${password}</strong></div>`;
+  renderEquipe();
+}
+
+function editMemberPhoto(id){
+  const np=prompt('Nouveau lien Google Drive pour la photo :');
+  if(np===null)return;
+  const d=getData();const m=d.members.find(x=>x.id===id);
+  if(m){m.photo=np.trim();save(d);renderEquipe();}
+}
+
+function deleteMember(id){
+  if(['admin1'].includes(id)){alert('Impossible de supprimer le Chef de Service.');return;}
+  if(!confirm('Supprimer ce membre ?'))return;
+  const d=getData();d.members=d.members.filter(m=>m.id!==id);save(d);renderEquipe();
+}
+
+function renderEquipe(){
+  const d=getData();
+  document.getElementById('memberGrid').innerHTML=d.members.map(m=>{
+    const pu=driveUrl(m.photo);
+    return`<div class="member-mini">${photoHtml(pu,70,80,8)}<div class="m-name">${m.name}</div><div class="m-role-label">${m.username}</div><span class="m-badge ${roleClass(m.role)}">${roleLabel(m.role)}</span><br/><div style="display:flex;gap:4px;justify-content:center;margin-top:8px;"><button class="btn btn-warning btn-sm" onclick="editMemberPhoto('${m.id}')">📷</button>${m.id!=='admin1'?`<button class="btn btn-danger btn-sm" onclick="deleteMember('${m.id}')">🗑️</button>`:''}</div></div>`;
+  }).join('');
+}
+</script>
+
+<!-- LIGHTBOX -->
+<div class="lightbox-overlay" id="lightbox" onclick="closeLightbox()">
+  <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+  <img id="lightboxImg" src="" alt=""/>
+</div>
+</body>
+</html>

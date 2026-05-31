@@ -1,0 +1,1643 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Service de Chirurgie Viscérale & Digestive — Hôpital Régional de Tataouine</title>
+<link rel="icon" type="image/png" href="https://lh3.googleusercontent.com/d/1XdOvVO4nOrTEedL5I0Cc1hPjITnrcsId"/>
+<link rel="apple-touch-icon" href="https://lh3.googleusercontent.com/d/1XdOvVO4nOrTEedL5I0Cc1hPjITnrcsId"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --blue-deep: #0d3b6e;
+  --blue-mid: #1a5fa8;
+  --blue-light: #4a9fd4;
+  --blue-pale: #e8f4fb;
+  --blue-ultra: #f0f8ff;
+  --gray-dark: #2c3e50;
+  --gray-mid: #5a6a7a;
+  --gray-light: #b8c8d8;
+  --gray-pale: #f5f7fa;
+  --white: #ffffff;
+  --accent: #c8dff0;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--white);
+  color: var(--gray-dark);
+  overflow-x: hidden;
+}
+
+/* ── LANG SWITCHER ── */
+.lang-bar {
+  background: var(--blue-deep);
+  padding: 8px 40px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 6px;
+}
+.lang-btn {
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.3);
+  color: rgba(255,255,255,0.7);
+  padding: 4px 14px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 12px;
+  font-family: 'DM Sans', sans-serif;
+  letter-spacing: 0.05em;
+  transition: all 0.2s;
+}
+.lang-btn.active, .lang-btn:hover {
+  background: rgba(255,255,255,0.15);
+  color: #fff;
+  border-color: rgba(255,255,255,0.6);
+}
+
+/* ── HEADER ── */
+header {
+  background: linear-gradient(135deg, var(--blue-deep) 0%, var(--blue-mid) 60%, var(--blue-light) 100%);
+  padding: 50px 60px 60px;
+  position: relative;
+  overflow: hidden;
+}
+header::before {
+  content: '';
+  position: absolute;
+  top: -60px; right: -60px;
+  width: 400px; height: 400px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.04);
+}
+header::after {
+  content: '';
+  position: absolute;
+  bottom: -80px; left: 30%;
+  width: 500px; height: 300px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.03);
+}
+.header-inner {
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+.logo-wrap {
+  flex-shrink: 0;
+  width: 130px; height: 130px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+}
+.logo-wrap img {
+  width: 100%;
+  filter: brightness(0) invert(1);
+}
+.header-text { flex: 1; }
+.header-subtitle {
+  font-size: 13px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.65);
+  margin-bottom: 14px;
+}
+.header-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 52px;
+  font-weight: 600;
+  color: #fff;
+  line-height: 1.15;
+  margin-bottom: 14px;
+}
+.header-title span { color: var(--accent); }
+.header-desc {
+  font-size: 17px;
+  color: rgba(255,255,255,0.75);
+  max-width: 640px;
+  line-height: 1.7;
+  margin: 0 auto;
+}
+.badge-univ {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.3);
+  color: #fff;
+  padding: 9px 22px;
+  border-radius: 30px;
+  font-size: 13px;
+  margin-top: 20px;
+}
+.badge-univ svg { width: 14px; height: 14px; opacity: 0.8; }
+
+/* ── NAV ── */
+nav {
+  background: var(--white);
+  border-bottom: 1px solid var(--accent);
+  position: sticky; top: 0; z-index: 100;
+  box-shadow: 0 2px 16px rgba(13,59,110,0.07);
+}
+.nav-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  gap: 0;
+}
+.nav-link {
+  padding: 16px 24px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--gray-mid);
+  text-decoration: none;
+  letter-spacing: 0.03em;
+  border-bottom: 3px solid transparent;
+  transition: all 0.2s;
+}
+.nav-link:hover, .nav-link.active {
+  color: var(--blue-mid);
+  border-bottom-color: var(--blue-light);
+}
+
+/* ── MAIN ── */
+main { max-width: 1100px; margin: 0 auto; padding: 0 40px; }
+
+/* ── SECTIONS ── */
+section { padding: 70px 0; border-bottom: 1px solid var(--blue-pale); }
+section:last-child { border-bottom: none; }
+
+.section-label {
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--blue-light);
+  margin-bottom: 8px;
+}
+.section-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 32px;
+  font-weight: 600;
+  color: var(--blue-deep);
+  margin-bottom: 28px;
+  line-height: 1.2;
+}
+.section-divider {
+  width: 50px;
+  height: 3px;
+  background: linear-gradient(to right, var(--blue-mid), var(--blue-light));
+  border-radius: 2px;
+  margin-bottom: 32px;
+}
+
+/* ── ABOUT / SERVICE ── */
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  align-items: start;
+}
+.about-text p {
+  font-size: 15px;
+  line-height: 1.8;
+  color: var(--gray-mid);
+  margin-bottom: 16px;
+}
+.stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+.stat-card {
+  background: var(--blue-ultra);
+  border: 1px solid var(--accent);
+  border-radius: 12px;
+  padding: 24px;
+  text-align: center;
+}
+.stat-number {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 36px;
+  font-weight: 600;
+  color: var(--blue-mid);
+  line-height: 1;
+}
+.stat-label {
+  font-size: 12px;
+  color: var(--gray-mid);
+  margin-top: 6px;
+  line-height: 1.4;
+}
+
+/* ── TEAM GRID ── */
+.chef-wrap {
+  display: flex;
+  gap: 40px;
+  align-items: flex-start;
+  background: var(--blue-ultra);
+  border: 1px solid var(--accent);
+  border-radius: 16px;
+  padding: 36px;
+  margin-bottom: 50px;
+}
+.chef-photo {
+  flex-shrink: 0;
+  width: 160px; height: 180px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--blue-pale), var(--accent));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border: 2px solid rgba(74,159,212,0.3);
+}
+.photo-placeholder {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 40px;
+  font-weight: 600;
+  color: var(--blue-mid);
+  opacity: 0.5;
+}
+.chef-info { flex: 1; }
+.chef-role {
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--blue-light);
+  margin-bottom: 6px;
+}
+.chef-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--blue-deep);
+  margin-bottom: 10px;
+}
+.chef-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.tag {
+  background: rgba(26,95,168,0.08);
+  color: var(--blue-mid);
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  border: 1px solid rgba(26,95,168,0.15);
+}
+.chef-bio {
+  font-size: 14px;
+  color: var(--gray-mid);
+  line-height: 1.7;
+}
+
+.surgeons-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px;
+  color: var(--blue-deep);
+  margin-bottom: 24px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--accent);
+}
+.surgeons-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin-bottom: 50px;
+}
+.surgeon-card {
+  background: var(--white);
+  border: 1px solid var(--accent);
+  border-radius: 12px;
+  padding: 24px 18px;
+  text-align: center;
+  transition: all 0.25s;
+}
+.surgeon-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(13,59,110,0.1);
+  border-color: var(--blue-light);
+}
+.surgeon-photo {
+  width: 160px; height: 180px;
+  border-radius: 12px;
+  margin: 0 auto 16px;
+  background: linear-gradient(135deg, var(--blue-pale), var(--accent));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid rgba(74,159,212,0.3);
+}
+.surgeon-photo .photo-placeholder { font-size: 40px; }
+.surgeon-name {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--blue-deep);
+  margin-bottom: 4px;
+}
+.surgeon-spec {
+  font-size: 12px;
+  color: var(--gray-mid);
+  line-height: 1.4;
+}
+
+/* Nursing team */
+.nursing-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 16px;
+}
+.nurse-card {
+  background: var(--gray-pale);
+  border: 1px solid #dde8f0;
+  border-radius: 10px;
+  padding: 20px 14px;
+  text-align: center;
+}
+.nurse-avatar {
+  width: 56px; height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--blue-pale), var(--accent));
+  margin: 0 auto 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18px; font-weight: 600;
+  color: var(--blue-mid);
+}
+.nurse-name { font-size: 13px; font-weight: 500; color: var(--blue-deep); }
+.nurse-role { font-size: 11px; color: var(--gray-mid); margin-top: 3px; }
+
+/* ── SPECIALITES ── */
+.spec-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+.spec-card {
+  background: var(--white);
+  border: 1px solid var(--accent);
+  border-radius: 12px;
+  padding: 26px;
+  transition: all 0.25s;
+  border-top: 3px solid var(--blue-light);
+}
+.spec-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 28px rgba(13,59,110,0.09);
+}
+.spec-icon {
+  width: 44px; height: 44px;
+  background: var(--blue-ultra);
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 14px;
+}
+.spec-icon svg { width: 22px; height: 22px; stroke: var(--blue-mid); fill: none; stroke-width: 1.5; }
+.spec-name {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--blue-deep);
+  margin-bottom: 6px;
+}
+.spec-desc { font-size: 13px; color: var(--gray-mid); line-height: 1.6; }
+
+/* ── CONSULTATIONS ── */
+.consult-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+}
+.consult-card {
+  background: var(--blue-ultra);
+  border: 1px solid var(--accent);
+  border-radius: 14px;
+  padding: 32px;
+}
+.consult-day {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 24px;
+  color: var(--blue-deep);
+  margin-bottom: 8px;
+}
+.consult-time {
+  font-size: 28px;
+  font-weight: 300;
+  color: var(--blue-mid);
+  letter-spacing: -0.02em;
+}
+.consult-info {
+  font-size: 13px;
+  color: var(--gray-mid);
+  margin-top: 10px;
+  line-height: 1.6;
+}
+.rdv-btn {
+  display: inline-block;
+  margin-top: 16px;
+  background: var(--blue-mid);
+  color: #fff;
+  padding: 12px 28px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 500;
+  transition: background 0.2s;
+}
+.rdv-btn:hover { background: var(--blue-deep); }
+
+/* ── CONTACT ── */
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+}
+.contact-item {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  margin-bottom: 24px;
+}
+.contact-icon {
+  width: 44px; height: 44px;
+  background: var(--blue-ultra);
+  border: 1px solid var(--accent);
+  border-radius: 10px;
+  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+}
+.contact-icon svg { width: 20px; height: 20px; stroke: var(--blue-mid); fill: none; stroke-width: 1.5; }
+.contact-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--blue-light); margin-bottom: 4px; }
+.contact-value { font-size: 14px; color: var(--gray-dark); font-weight: 500; }
+
+/* ── FOOTER ── */
+footer {
+  background: var(--blue-deep);
+  color: rgba(255,255,255,0.65);
+  padding: 40px 60px;
+  text-align: center;
+  font-size: 13px;
+  line-height: 1.8;
+}
+footer strong { color: rgba(255,255,255,0.9); }
+
+/* ── CAPSULES PATIENTS ── */
+.capsules-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+}
+.capsule-card {
+  background: var(--white);
+  border: 1px solid var(--accent);
+  border-radius: 14px;
+  overflow: hidden;
+  transition: all 0.25s;
+}
+.capsule-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 32px rgba(13,59,110,0.10);
+  border-color: var(--blue-light);
+}
+.capsule-thumb {
+  background: linear-gradient(135deg, var(--blue-deep) 0%, var(--blue-mid) 100%);
+  height: 130px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.capsule-coming {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  color: rgba(255,255,255,0.5);
+  font-size: 12px;
+}
+.capsule-coming svg { stroke: rgba(255,255,255,0.4); }
+.capsule-num {
+  position: absolute;
+  top: 10px; right: 14px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 26px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.15);
+  line-height: 1;
+}
+.capsule-body { padding: 16px; }
+.capsule-tag {
+  display: inline-block;
+  background: var(--blue-ultra);
+  color: var(--blue-mid);
+  border: 1px solid var(--accent);
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  margin-bottom: 8px;
+}
+.capsule-title {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--blue-deep);
+  line-height: 1.5;
+}
+
+/* ── RTL for Arabic ── */
+[lang="ar"] { direction: rtl; }
+[lang="ar"] .header-inner { flex-direction: row-reverse; }
+[lang="ar"] .nav-inner { flex-direction: row-reverse; }
+[lang="ar"] .about-grid { direction: rtl; }
+[lang="ar"] .chef-wrap { flex-direction: row-reverse; }
+[lang="ar"] .lang-bar { flex-direction: row-reverse; justify-content: flex-start; }
+[lang="ar"] * { font-family: 'DM Sans', 'Segoe UI', Tahoma, sans-serif; }
+[lang="ar"] .header-title, [lang="ar"] .section-title, [lang="ar"] .chef-name, [lang="ar"] .consult-day, [lang="ar"] .surgeons-title {
+  font-family: 'Segoe UI', Tahoma, sans-serif;
+}
+
+/* ── HIDDEN LANG CONTENT ── */
+.lang-fr, .lang-ar, .lang-en { display: none; }
+.lang-fr.active, .lang-ar.active, .lang-en.active { display: block; }
+.lang-fr-inline, .lang-ar-inline, .lang-en-inline { display: none; }
+.lang-fr-inline.active, .lang-ar-inline.active, .lang-en-inline.active { display: inline; }
+
+/* ── ANIMATE ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.header-inner { animation: fadeUp 0.7s ease both; }
+.header-text { animation: fadeUp 0.7s ease 0.1s both; }
+
+/* ── MOBILE RESPONSIVE ── */
+@media (max-width: 768px) {
+  .lang-bar { padding: 6px 16px; }
+  header { padding: 30px 20px 20px; }
+  .header-title { font-size: 28px !important; }
+  .header-desc { font-size: 14px !important; }
+  header img[style*="420px"] {
+    width: 200px !important;
+    height: 200px !important;
+  }
+  nav { overflow-x: auto; }
+  .nav-inner { flex-wrap: nowrap; overflow-x: auto; padding: 0 8px; min-width: max-content; }
+  .nav-link { padding: 12px 12px; font-size: 11px; white-space: nowrap; }
+  main { padding: 0 16px; }
+  section { padding: 40px 0; }
+  .section-title { font-size: 24px; }
+  .about-grid { grid-template-columns: 1fr !important; gap: 24px; }
+  .stats-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .stat-card { padding: 16px 10px; }
+  .stat-number { font-size: 26px; }
+  .chef-wrap { flex-direction: column !important; gap: 20px; padding: 20px; }
+  .chef-photo { width: 120px !important; height: 140px !important; margin: 0 auto; }
+  .chef-name { font-size: 22px; }
+  .surgeons-grid { grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)) !important; gap: 12px; }
+  .surgeon-card { padding: 14px 10px; }
+  .surgeon-photo { width: 120px !important; height: 140px !important; }
+  .nursing-grid { grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)) !important; gap: 10px; }
+  .nurse-card { padding: 14px 8px; }
+  .spec-grid { grid-template-columns: 1fr !important; }
+  .consult-grid { grid-template-columns: 1fr !important; gap: 16px; }
+  .consult-time { font-size: 22px !important; }
+  .contact-grid, div[style*="grid-template-columns:1fr 1fr"] { 
+    display: block !important; 
+  }
+  div[style*="grid-template-columns:1fr 1fr"] > div { margin-bottom: 24px; }
+  .capsules-grid { grid-template-columns: 1fr 1fr !important; }
+  footer { padding: 30px 16px; }
+  footer div[style*="display:flex"] { flex-direction: column; align-items: center; gap: 10px !important; }
+  div[style*="display:flex; gap:30px; align-items:center"] { 
+    flex-direction: column !important; 
+    text-align: center; 
+  }
+  div[style*="background:linear-gradient(135deg, var(--blue-deep)"][style*="display:flex"] {
+    flex-direction: column !important;
+    padding: 24px 16px !important;
+  }
+  .fb-page { width: 100% !important; }
+}
+@media (max-width: 480px) {
+  .header-title { font-size: 22px !important; }
+  .capsules-grid { grid-template-columns: 1fr !important; }
+  .surgeons-grid { grid-template-columns: 1fr 1fr !important; }
+  .badge-univ { font-size: 11px; padding: 7px 14px; }
+}
+</style>
+</head>
+<body>
+
+<!-- LANG BAR -->
+<div class="lang-bar">
+  <button class="lang-btn active" onclick="setLang('fr')">FR</button>
+  <button class="lang-btn" onclick="setLang('ar')">ع</button>
+  <button class="lang-btn" onclick="setLang('en')">EN</button>
+</div>
+
+<!-- HEADER -->
+<header>
+  <div class="header-inner">
+
+    <div class="header-text">
+      <p class="header-subtitle">
+        <span class="lang-fr-inline active">Hôpital Régional de Tataouine</span>
+        <span class="lang-ar-inline">المستشفى الجهوي بتطاوين</span>
+        <span class="lang-en-inline">Regional Hospital of Tataouine</span>
+      </p>
+      <h1 class="header-title">
+        <span class="lang-fr active">Service de <span>Chirurgie</span><br/>Viscérale & Digestive</span>
+        <span class="lang-ar">قسم الجراحة <span>الحشوية</span><br/>والهضمية</span>
+        <span class="lang-en">Department of <span>Visceral</span><br/>& Digestive Surgery</span>
+      </h1>
+      <p class="header-desc">
+        <span class="lang-fr active">Excellence chirurgicale au service de la région du Sud tunisien</span>
+        <span class="lang-ar">التميز الجراحي في خدمة منطقة الجنوب التونسي</span>
+        <span class="lang-en">Surgical excellence serving the Southern Tunisian region</span>
+      </p>
+      <div class="badge-univ">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+        <span class="lang-fr-inline active">Service Hospitalo-Universitaire depuis 2019</span>
+        <span class="lang-ar-inline">قسم استشفائي جامعي منذ 2019</span>
+        <span class="lang-en-inline">Academic Teaching Unit since 2019</span>
+      </div>
+    </div>
+  </div>
+  <!-- Grand logo centré sous le header -->
+  <div style="display:flex; justify-content:center; margin-top:36px; position:relative; z-index:1;">
+    <img src="https://lh3.googleusercontent.com/d/1XdOvVO4nOrTEedL5I0Cc1hPjITnrcsId"
+         alt="Sceau du Service de Chirurgie Viscérale et Digestive — Hôpital de Tataouine"
+         style="width:420px; height:420px; object-fit:contain; filter:brightness(0) invert(1); opacity:0.92;"/>
+  </div>
+</header>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="#service" class="nav-link">
+      <span class="lang-fr-inline active">Le Service</span>
+      <span class="lang-ar-inline">القسم</span>
+      <span class="lang-en-inline">About</span>
+    </a>
+    <a href="#equipe" class="nav-link">
+      <span class="lang-fr-inline active">Équipe</span>
+      <span class="lang-ar-inline">الفريق</span>
+      <span class="lang-en-inline">Team</span>
+    </a>
+    <a href="#specialites" class="nav-link">
+      <span class="lang-fr-inline active">Spécialités</span>
+      <span class="lang-ar-inline">التخصصات</span>
+      <span class="lang-en-inline">Specialties</span>
+    </a>
+    <a href="#consultations" class="nav-link">
+      <span class="lang-fr-inline active">Consultations</span>
+      <span class="lang-ar-inline">الاستشارات</span>
+      <span class="lang-en-inline">Consultations</span>
+    </a>
+    <a href="#actualites" class="nav-link">
+      <span class="lang-fr-inline active">Actualités</span>
+      <span class="lang-ar-inline">الأخبار</span>
+      <span class="lang-en-inline">News</span>
+    </a>
+    <a href="#patients" class="nav-link">
+      <span class="lang-fr-inline active">Espace Patients</span>
+      <span class="lang-ar-inline">فضاء المرضى</span>
+      <span class="lang-en-inline">Patients</span>
+    </a>
+    <a href="espace-membres.html" class="nav-link" style="background:var(--blue-mid);color:#fff;border-radius:6px;margin:8px 0 8px 8px;">
+      <span class="lang-fr-inline active">🔐 Espace Membres</span>
+      <span class="lang-ar-inline">🔐 فضاء الأعضاء</span>
+      <span class="lang-en-inline">🔐 Members Area</span>
+    </a>
+    <a href="#contact" class="nav-link">
+      <span class="lang-fr-inline active">Contact</span>
+      <span class="lang-ar-inline">تواصل معنا</span>
+      <span class="lang-en-inline">Contact</span>
+    </a>
+  </div>
+</nav>
+
+<!-- MAIN -->
+<main>
+
+<!-- SERVICE -->
+<section id="service">
+  <p class="section-label">
+    <span class="lang-fr-inline active">Présentation</span>
+    <span class="lang-ar-inline">تعريف</span>
+    <span class="lang-en-inline">Overview</span>
+  </p>
+  <h2 class="section-title">
+    <span class="lang-fr active">Notre Service</span>
+    <span class="lang-ar">قسمنا</span>
+    <span class="lang-en">Our Department</span>
+  </h2>
+  <div class="section-divider"></div>
+  <div class="about-grid">
+    <div class="about-text">
+      <div class="lang-fr active">
+        <p>Le Service de Chirurgie Viscérale et Digestive de l'Hôpital Régional de Tataouine a obtenu le statut de <strong>service hospitalo-universitaire</strong> en décembre 2019, par décision conjointe des ministères de l'Enseignement Supérieur et de la Santé, publiée au Journal Officiel de la République Tunisienne.</p>
+        <p>Cette accréditation marque une étape historique pour la santé dans la région de Tataouine, renforçant l'infrastructure hospitalière, l'accès à des équipements chirurgicaux modernes incluant la chirurgie laparoscopique, et la réduction des délais d'attente pour les patients.</p>
+        <p>Le service assume désormais une triple mission : <strong>soins</strong> de haute qualité, <strong>formation</strong> des étudiants et résidents en médecine, et <strong>recherche</strong> académique, contribuant à attirer des compétences médicales de haut niveau au profit de la population de Tataouine et des régions voisines.</p>
+      </div>
+      <div class="lang-ar">
+        <p>حصل قسم الجراحة العامة والهضمية بالمستشفى الجهوي بتطاوين على <strong>الصبغة الجامعية</strong> في ديسمبر 2019، بموجب قرار مشترك بين وزيري التعليم العالي والصحة، نشر رسمياً في الرائد الرسمي للجمهورية التونسية.</p>
+        <p>يمثل هذا الاعتماد نقلة نوعية للخدمات الصحية في ولاية تطاوين، إذ أسهم في تعزيز البنية التحتية للمستشفى وتجهيزه بأحدث المعدات الجراحية بما فيها منظار الجراحة، مما أتاح إجراء العمليات محلياً وقلّص فترات الانتظار للمرضى.</p>
+        <p>يضطلع القسم اليوم بثلاثة أدوار متكاملة: تقديم <strong>الرعاية الصحية</strong> عالية الجودة، <strong>تكوين</strong> الطلبة والأطباء المقيمين، و<strong>البحث العلمي</strong> الأكاديمي، مما يساهم في جذب كفاءات طبية عليا لخدمة أهالي تطاوين والمناطق المجاورة.</p>
+      </div>
+      <div class="lang-en">
+        <p>The Department of Visceral and Digestive Surgery at Tataouine Regional Hospital received its <strong>university hospital status</strong> in December 2019, through a joint decision of the Ministries of Higher Education and Health, published in the Official Gazette of the Tunisian Republic.</p>
+        <p>This accreditation marks a historic milestone for healthcare in the Tataouine region, strengthening hospital infrastructure, access to modern surgical equipment including laparoscopic surgery, and reducing waiting times for patients.</p>
+        <p>The department now fulfills a triple mission: high-quality <strong>patient care</strong>, <strong>training</strong> of medical students and residents, and academic <strong>research</strong>, contributing to attracting top medical talent for the benefit of the population of Tataouine and neighboring regions.</p>
+      </div>
+    </div>
+    <div>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-number">2019</div>
+          <div class="stat-label lang-fr active">Statut Universitaire</div>
+          <div class="stat-label lang-ar">الصبغة الجامعية</div>
+          <div class="stat-label lang-en">University Status</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">6+</div>
+          <div class="stat-label lang-fr active">Chirurgiens spécialistes</div>
+          <div class="stat-label lang-ar">جراحون متخصصون</div>
+          <div class="stat-label lang-en">Specialist Surgeons</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">2×</div>
+          <div class="stat-label lang-fr active">Consultations / semaine</div>
+          <div class="stat-label lang-ar">استشارات أسبوعياً</div>
+          <div class="stat-label lang-en">Consultations/week</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">24/7</div>
+          <div class="stat-label lang-fr active">Urgences chirurgicales</div>
+          <div class="stat-label lang-ar">طوارئ جراحية</div>
+          <div class="stat-label lang-en">Surgical Emergencies</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EQUIPE -->
+<section id="equipe">
+  <p class="section-label">
+    <span class="lang-fr-inline active">Ressources Humaines</span>
+    <span class="lang-ar-inline">الموارد البشرية</span>
+    <span class="lang-en-inline">Human Resources</span>
+  </p>
+  <h2 class="section-title">
+    <span class="lang-fr active">Notre Équipe</span>
+    <span class="lang-ar">فريقنا</span>
+    <span class="lang-en">Our Team</span>
+  </h2>
+  <div class="section-divider"></div>
+
+  <!-- Chef de service -->
+  <div class="chef-wrap">
+    <div class="chef-photo" style="overflow:hidden; background:#dce8f4;">
+      <img src="https://lh3.googleusercontent.com/d/1nBCk5xq2joeWRFCEZUqh8XYefWpQcE2r" alt="Dr. Masmoudi" style="width:100%; height:100%; object-fit:cover; object-position:center top;"/>
+    </div>
+    <div class="chef-info">
+      <p class="chef-role">
+        <span class="lang-fr-inline active">Chef de Service</span>
+        <span class="lang-ar-inline">رئيس القسم</span>
+        <span class="lang-en-inline">Head of Department</span>
+      </p>
+      <h3 class="chef-name">Dr. Masmoudi</h3>
+      <div class="chef-tags">
+        <span class="tag lang-fr active">Chirurgien Viscéral & Digestif</span>
+        <span class="tag lang-ar">جراح الجهاز الهضمي والحشوي</span>
+        <span class="tag lang-en">Visceral & Digestive Surgeon</span>
+        <span class="tag lang-fr active">AHU — Faculté de Médecine de Sfax</span>
+        <span class="tag lang-ar">مساعد جامعي — كلية الطب سفاقس</span>
+        <span class="tag lang-en">AHU — Faculty of Medicine, Sfax</span>
+        <span class="tag lang-fr active">Chirurgie Laparoscopique</span>
+        <span class="tag lang-ar">جراحة بالمنظار</span>
+        <span class="tag lang-en">Laparoscopic Surgery</span>
+      </div>
+      <p class="chef-bio lang-fr active">Assistant Hospitalo-Universitaire à la Faculté de Médecine de Sfax. Spécialiste en chirurgie mini-invasive et laparoscopique. Chef de service à l'Hôpital Régional de Tataouine et chirurgien conventionné à l'Hôpital Militaire Universitaire de Sfax.</p>
+      <p class="chef-bio lang-ar">مساعد استشفائي جامعي بكلية الطب بسفاقس. متخصص في جراحة المناظير وجراحة الجهاز الهضمي. رئيس قسم بالمستشفى الجهوي بتطاوين وجراح بالمستشفى العسكري الجامعي بسفاقس.</p>
+      <p class="chef-bio lang-en">University Hospital Assistant at the Faculty of Medicine of Sfax. Specialist in minimally invasive and laparoscopic surgery. Head of Department at Tataouine Regional Hospital and contracted surgeon at the Military University Hospital of Sfax.</p>
+    </div>
+  </div>
+
+  <!-- Surgeons -->
+  <h3 class="surgeons-title">
+    <span class="lang-fr-inline active">Médecins Spécialistes</span>
+    <span class="lang-ar-inline">الأطباء المتخصصون</span>
+    <span class="lang-en-inline">Specialist Physicians</span>
+  </h3>
+  <div class="surgeons-grid">
+    <div class="surgeon-card">
+      <div class="surgeon-photo" style="overflow:hidden; background:#dce8f4;">
+        <img src="https://lh3.googleusercontent.com/d/1JkUJ-JEMOltGgvQ3oSp-B2cqmHGmEL5u" alt="Dr. Yassine Maalej" style="width:100%; height:100%; object-fit:cover; object-position:center top;"/>
+      </div>
+      <div class="surgeon-name">Dr. Yassine Maalej</div>
+      <div class="surgeon-spec lang-fr active">Chirurgie Viscérale & Digestive</div>
+      <div class="surgeon-spec lang-ar">جراحة الجهاز الهضمي و الأمعاء</div>
+      <div class="surgeon-spec lang-en">Visceral & Digestive Surgery</div>
+    </div>
+    <div class="surgeon-card">
+      <div class="surgeon-photo" style="overflow:hidden; background:#dce8f4;">
+        <img src="https://lh3.googleusercontent.com/d/1hJdGkubA6PYWfogLdlbI5aMMrpV84IGr" alt="Dr. Walid Maraach" style="width:100%; height:100%; object-fit:cover; object-position:center top;"/>
+      </div>
+      <div class="surgeon-name">Dr. Walid Maraach</div>
+      <div class="surgeon-spec lang-fr active">Chirurgie Viscérale & Digestive</div>
+      <div class="surgeon-spec lang-ar">جراحة الجهاز الهضمي و الأمعاء</div>
+      <div class="surgeon-spec lang-en">Visceral & Digestive Surgery</div>
+    </div>
+    <div class="surgeon-card">
+      <div class="surgeon-photo" style="overflow:hidden; background:#dce8f4;">
+        <img src="https://lh3.googleusercontent.com/d/1zG8SvFQFbHZlXAzq2ElJHyZhKNvPAT9a" alt="Dr. Ilyess Lessoued" style="width:100%; height:100%; object-fit:cover; object-position:center top;"/>
+      </div>
+      <div class="surgeon-name">Dr. Ilyess Lessoued</div>
+      <div class="surgeon-spec lang-fr active">Chirurgie Viscérale & Digestive</div>
+      <div class="surgeon-spec lang-ar">جراحة الجهاز الهضمي و الأمعاء</div>
+      <div class="surgeon-spec lang-en">Visceral & Digestive Surgery</div>
+    </div>
+    <div class="surgeon-card">
+      <div class="surgeon-photo" style="overflow:hidden; background:#dce8f4;">
+        <img src="https://lh3.googleusercontent.com/d/18IFuRDf8vRwrSfCqyzVRD3vmE64i3iBn" alt="Dr. Bassma Ben Hssin" style="width:100%; height:100%; object-fit:cover; object-position:center top;"/>
+      </div>
+      <div class="surgeon-name">Dr. Bassma Ben Hssin</div>
+      <div class="surgeon-spec lang-fr active">Chirurgie Viscérale & Digestive</div>
+      <div class="surgeon-spec lang-ar">جراحة الجهاز الهضمي و الأمعاء</div>
+      <div class="surgeon-spec lang-en">Visceral & Digestive Surgery</div>
+    </div>
+    <div class="surgeon-card" style="border-top-color: #5a9ab8;">
+      <div class="surgeon-photo" style="overflow:hidden; background:#dce8f4;">
+        <img src="https://lh3.googleusercontent.com/d/1MQ6MWphk9nVwyiAtmE3ejvGvql87MxG_" alt="Dr. Aymen Ben Ayed" style="width:100%; height:100%; object-fit:cover; object-position:center top;"/>
+      </div>
+      <div class="surgeon-name">Dr. Aymen Ben Ayed</div>
+      <div class="surgeon-spec lang-fr active">Chirurgie Thoracique<br/><small>Assistant Universitaire</small></div>
+      <div class="surgeon-spec lang-ar">جراحة الصدر<br/><small>مساعد جامعي</small></div>
+      <div class="surgeon-spec lang-en">Thoracic Surgery<br/><small>University Assistant</small></div>
+    </div>
+  </div>
+
+  <!-- Nursing team -->
+  <h3 class="surgeons-title">
+    <span class="lang-fr-inline active">Équipe Soignante</span>
+    <span class="lang-ar-inline">الفريق التمريضي</span>
+    <span class="lang-en-inline">Nursing Team</span>
+  </h3>
+
+  <!-- Surveillante -->
+  <div style="display:flex; gap:30px; align-items:center; background:var(--blue-ultra); border:1px solid var(--accent); border-radius:14px; padding:24px 30px; margin-bottom:30px;">
+    <div style="width:100px; height:110px; border-radius:10px; overflow:hidden; flex-shrink:0; border:2px solid rgba(74,159,212,0.3); background:#dce8f4;">
+      <img src="https://lh3.googleusercontent.com/d/1YLEZevSDBz566Q7l8PVTzyQPtQ6sVzT4" alt="Aicha Boudellaa" style="width:100%; height:100%; object-fit:cover; object-position:center top;"/>
+    </div>
+    <div>
+      <div style="font-size:11px; letter-spacing:0.15em; text-transform:uppercase; color:var(--blue-light); margin-bottom:4px;">
+        <span class="lang-fr-inline active">Surveillante du Service</span>
+        <span class="lang-ar-inline">مراقبة القسم</span>
+        <span class="lang-en-inline">Ward Supervisor</span>
+      </div>
+      <div style="font-family:'Cormorant Garamond',serif; font-size:22px; color:var(--blue-deep); font-weight:600;">Aicha Boudellaa</div>
+    </div>
+  </div>
+
+  <!-- Infirmiers -->
+  <h4 style="font-size:15px; color:var(--gray-mid); margin-bottom:16px; font-weight:400;">
+    <span class="lang-fr-inline active">Équipe infirmière</span>
+    <span class="lang-ar-inline">الفريق التمريضي</span>
+    <span class="lang-en-inline">Nursing Staff</span>
+  </h4>
+  <div class="nursing-grid" style="margin-bottom:30px;">
+    <div class="nurse-card">
+      <div class="nurse-avatar">ZT</div>
+      <div class="nurse-name">Zaid Tammag</div>
+      <div class="nurse-role lang-fr active">Infirmier·ère</div>
+      <div class="nurse-role lang-ar">ممرض/ة</div>
+      <div class="nurse-role lang-en">Nurse</div>
+    </div>
+    <div class="nurse-card">
+      <div class="nurse-avatar">ME</div>
+      <div class="nurse-name">Massoud El Liboudi</div>
+      <div class="nurse-role lang-fr active">Infirmier·ère</div>
+      <div class="nurse-role lang-ar">ممرض/ة</div>
+      <div class="nurse-role lang-en">Nurse</div>
+    </div>
+    <div class="nurse-card">
+      <div class="nurse-avatar">IE</div>
+      <div class="nurse-name">Ichrak El Nasri</div>
+      <div class="nurse-role lang-fr active">Infirmier·ère</div>
+      <div class="nurse-role lang-ar">ممرض/ة</div>
+      <div class="nurse-role lang-en">Nurse</div>
+    </div>
+    <div class="nurse-card">
+      <div class="nurse-avatar">ZA</div>
+      <div class="nurse-name">Zaineb Atallah</div>
+      <div class="nurse-role lang-fr active">Infirmier·ère</div>
+      <div class="nurse-role lang-ar">ممرض/ة</div>
+      <div class="nurse-role lang-en">Nurse</div>
+    </div>
+    <div class="nurse-card">
+      <div class="nurse-avatar">LB</div>
+      <div class="nurse-name">Leila Bouchnag</div>
+      <div class="nurse-role lang-fr active">Infirmier·ère</div>
+      <div class="nurse-role lang-ar">ممرض/ة</div>
+      <div class="nurse-role lang-en">Nurse</div>
+    </div>
+    <div class="nurse-card">
+      <div class="nurse-avatar">AE</div>
+      <div class="nurse-name">Amina El Fitouri</div>
+      <div class="nurse-role lang-fr active">Infirmier·ère</div>
+      <div class="nurse-role lang-ar">ممرض/ة</div>
+      <div class="nurse-role lang-en">Nurse</div>
+    </div>
+    <div class="nurse-card">
+      <div class="nurse-avatar">AB</div>
+      <div class="nurse-name">Abdelamajid Ben Aoun</div>
+      <div class="nurse-role lang-fr active">Infirmier·ère</div>
+      <div class="nurse-role lang-ar">ممرض/ة</div>
+      <div class="nurse-role lang-en">Nurse</div>
+    </div>
+    <div class="nurse-card">
+      <div class="nurse-avatar">ML</div>
+      <div class="nurse-name">Mohamed Lahmar</div>
+      <div class="nurse-role lang-fr active">Infirmier·ère</div>
+      <div class="nurse-role lang-ar">ممرض/ة</div>
+      <div class="nurse-role lang-en">Nurse</div>
+    </div>
+    <div class="nurse-card">
+      <div class="nurse-avatar">AE</div>
+      <div class="nurse-name">Amel El Megbli</div>
+      <div class="nurse-role lang-fr active">Infirmier·ère</div>
+      <div class="nurse-role lang-ar">ممرض/ة</div>
+      <div class="nurse-role lang-en">Nurse</div>
+    </div>
+    <div class="nurse-card">
+      <div class="nurse-avatar">ZK</div>
+      <div class="nurse-name">Zaineb Kaaroud</div>
+      <div class="nurse-role lang-fr active">Infirmier·ère</div>
+      <div class="nurse-role lang-ar">ممرض/ة</div>
+      <div class="nurse-role lang-en">Nurse</div>
+    </div>
+    <div class="nurse-card">
+      <div class="nurse-avatar">AH</div>
+      <div class="nurse-name">Abir Halmouss</div>
+      <div class="nurse-role lang-fr active">Infirmier·ère</div>
+      <div class="nurse-role lang-ar">ممرض/ة</div>
+      <div class="nurse-role lang-en">Nurse</div>
+    </div>
+    <div class="nurse-card">
+      <div class="nurse-avatar">KM</div>
+      <div class="nurse-name">Khaoula Marsit</div>
+      <div class="nurse-role lang-fr active">Infirmier·ère</div>
+      <div class="nurse-role lang-ar">ممرض/ة</div>
+      <div class="nurse-role lang-en">Nurse</div>
+    </div>
+    <div class="nurse-card">
+      <div class="nurse-avatar">RD</div>
+      <div class="nurse-name">Radhouan Djhaidar</div>
+      <div class="nurse-role lang-fr active">Infirmier·ère</div>
+      <div class="nurse-role lang-ar">ممرض/ة</div>
+      <div class="nurse-role lang-en">Nurse</div>
+    </div>
+    <div class="nurse-card">
+      <div class="nurse-avatar">SM</div>
+      <div class="nurse-name">Sihem Marsit</div>
+      <div class="nurse-role lang-fr active">Infirmier·ère</div>
+      <div class="nurse-role lang-ar">ممرض/ة</div>
+      <div class="nurse-role lang-en">Nurse</div>
+    </div>
+    <div class="nurse-card">
+      <div class="nurse-avatar">SE</div>
+      <div class="nurse-name">Sassiya El Hafyan</div>
+      <div class="nurse-role lang-fr active">Infirmier·ère</div>
+      <div class="nurse-role lang-ar">ممرض/ة</div>
+      <div class="nurse-role lang-en">Nurse</div>
+    </div>
+  </div>
+
+  <!-- Secrétaires -->
+  <h4 style="font-size:15px; color:var(--gray-mid); margin-bottom:16px; font-weight:400;">
+    <span class="lang-fr-inline active">Secrétariat médical</span>
+    <span class="lang-ar-inline">السكرتارية الطبية</span>
+    <span class="lang-en-inline">Medical Secretariat</span>
+  </h4>
+  <div class="nursing-grid" style="margin-bottom:40px;">
+    <div class="nurse-card" style="background:#f0f4ee; border:1px solid #b8d4b0;">
+      <div class="nurse-avatar" style="background:#daebd6; color:#5a8a52;">ME</div>
+      <div class="nurse-name">Mbaraka El Jlidi</div>
+      <div class="nurse-role lang-fr active">Secrétaire médicale</div>
+      <div class="nurse-role lang-ar">سكرتيرة طبية</div>
+      <div class="nurse-role lang-en">Medical Secretary</div>
+    </div>
+    <div class="nurse-card" style="background:#f0f4ee; border:1px solid #b8d4b0;">
+      <div class="nurse-avatar" style="background:#daebd6; color:#5a8a52;">IE</div>
+      <div class="nurse-name">Iness El Ghaffari</div>
+      <div class="nurse-role lang-fr active">Secrétaire médicale</div>
+      <div class="nurse-role lang-ar">سكرتيرة طبية</div>
+      <div class="nurse-role lang-en">Medical Secretary</div>
+    </div>
+  </div>
+
+  <!-- Infirmier du mois -->
+  <div style="background:linear-gradient(135deg, var(--blue-deep) 0%, var(--blue-mid) 100%); border-radius:16px; padding:36px; display:flex; gap:36px; align-items:center;">
+    <div style="flex-shrink:0; width:160px; height:180px; border-radius:12px; background:rgba(255,255,255,0.12); border:2px solid rgba(255,255,255,0.25); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px;">
+      <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="1"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      <span style="color:rgba(255,255,255,0.4); font-size:12px;">
+        <span class="lang-fr-inline active">Photo à venir</span>
+        <span class="lang-ar-inline">الصورة قادمة</span>
+        <span class="lang-en-inline">Photo coming</span>
+      </span>
+    </div>
+    <div>
+      <div style="display:inline-flex; align-items:center; gap:8px; background:rgba(255,215,0,0.2); border:1px solid rgba(255,215,0,0.4); color:#ffd700; padding:5px 14px; border-radius:20px; font-size:12px; margin-bottom:12px;">
+        ⭐
+        <span class="lang-fr-inline active">Infirmier·ère du mois</span>
+        <span class="lang-ar-inline">ممرض/ة الشهر</span>
+        <span class="lang-en-inline">Nurse of the Month</span>
+      </div>
+      <div style="font-family:'Cormorant Garamond',serif; font-size:28px; color:#fff; font-weight:600; margin-bottom:8px;">
+        <span class="lang-fr-inline active">À désigner</span>
+        <span class="lang-ar-inline">لم يُحدد بعد</span>
+        <span class="lang-en-inline">To be announced</span>
+      </div>
+      <div style="font-size:14px; color:rgba(255,255,255,0.65); line-height:1.6; max-width:400px;">
+        <span class="lang-fr-inline active">Chaque mois, un membre de l'équipe infirmière est mis à l'honneur pour son engagement et la qualité des soins prodigués aux patients.</span>
+        <span class="lang-ar-inline">كل شهر، يُكرَّم أحد أعضاء الفريق التمريضي تقديراً لتفانيه وجودة الرعاية المقدمة للمرضى.</span>
+        <span class="lang-en-inline">Each month, a nursing team member is honored for their dedication and quality of patient care.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SPECIALITES -->
+<section id="specialites">
+  <p class="section-label">
+    <span class="lang-fr-inline active">Expertises</span>
+    <span class="lang-ar-inline">الخبرات</span>
+    <span class="lang-en-inline">Expertise</span>
+  </p>
+  <h2 class="section-title">
+    <span class="lang-fr active">Nos Spécialités</span>
+    <span class="lang-ar">تخصصاتنا</span>
+    <span class="lang-en">Our Specialties</span>
+  </h2>
+  <div class="section-divider"></div>
+  <div class="spec-grid">
+    <div class="spec-card">
+      <div class="spec-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg></div>
+      <div class="spec-name lang-fr active">Chirurgie Laparoscopique</div>
+      <div class="spec-name lang-ar">جراحة المناظير</div>
+      <div class="spec-name lang-en">Laparoscopic Surgery</div>
+      <div class="spec-desc lang-fr active">Techniques mini-invasives pour appendicectomie, cholécystectomie, hernies et urgences abdominales</div>
+      <div class="spec-desc lang-ar">تقنيات طفيفة التوغل لاستئصال الزائدة، المرارة، الفتوق وطوارئ البطن</div>
+      <div class="spec-desc lang-en">Minimally invasive techniques for appendectomy, cholecystectomy, hernias and abdominal emergencies</div>
+    </div>
+    <div class="spec-card">
+      <div class="spec-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2"/><path d="M8 12h8M12 8v8"/></svg></div>
+      <div class="spec-name lang-fr active">Chirurgie Digestive</div>
+      <div class="spec-name lang-ar">جراحة الجهاز الهضمي</div>
+      <div class="spec-name lang-en">Digestive Surgery</div>
+      <div class="spec-desc lang-fr active">Pathologies colorectales, hépatiques, pancréatiques et de l'intestin grêle</div>
+      <div class="spec-desc lang-ar">أمراض القولون والمستقيم والكبد والبنكرياس والأمعاء الدقيقة</div>
+      <div class="spec-desc lang-en">Colorectal, hepatic, pancreatic and small bowel pathologies</div>
+    </div>
+    <div class="spec-card">
+      <div class="spec-icon"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
+      <div class="spec-name lang-fr active">Urgences Chirurgicales</div>
+      <div class="spec-name lang-ar">الطوارئ الجراحية</div>
+      <div class="spec-name lang-en">Surgical Emergencies</div>
+      <div class="spec-desc lang-fr active">Prise en charge 24h/24 des abdomen aigus, occlusions et péritonites</div>
+      <div class="spec-desc lang-ar">تدخل على مدار 24 ساعة للبطن الحاد والانسدادات والتهاب الصفاق</div>
+      <div class="spec-desc lang-en">24/7 management of acute abdomen, bowel obstruction and peritonitis</div>
+    </div>
+    <div class="spec-card">
+      <div class="spec-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9h6M9 12h6M9 15h4"/></svg></div>
+      <div class="spec-name lang-fr active">Proctologie</div>
+      <div class="spec-name lang-ar">أمراض المستقيم والشرج</div>
+      <div class="spec-name lang-en">Proctology</div>
+      <div class="spec-desc lang-fr active">Hémorroïdes, fistules anales, fissures et pathologies anorectales</div>
+      <div class="spec-desc lang-ar">البواسير والناسور الشرجي والشقوق والأمراض الشرجية المستقيمية</div>
+      <div class="spec-desc lang-en">Hemorrhoids, anal fistulas, fissures and anorectal pathologies</div>
+    </div>
+    <div class="spec-card">
+      <div class="spec-icon"><svg viewBox="0 0 24 24"><path d="M12 22V12M12 12L7 7M12 12l5-5M2 17l5-5M22 17l-5-5"/></svg></div>
+      <div class="spec-name lang-fr active">Chirurgie des Hernies</div>
+      <div class="spec-name lang-ar">جراحة الفتوق</div>
+      <div class="spec-name lang-en">Hernia Surgery</div>
+      <div class="spec-desc lang-fr active">Hernies inguinales, ombilicales et éventrations par voie laparoscopique ou conventionnelle</div>
+      <div class="spec-desc lang-ar">فتوق الأربية والسرة والجروح عبر المنظار أو الجراحة التقليدية</div>
+      <div class="spec-desc lang-en">Inguinal, umbilical hernias and incisional hernias via laparoscopic or open approach</div>
+    </div>
+    <div class="spec-card">
+      <div class="spec-icon"><svg viewBox="0 0 24 24"><path d="M14.5 10c-.83 0-1.5-.67-1.5-1.5v-5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5v5c0 .83-.67 1.5-1.5 1.5z"/><path d="M20.5 10H19V8.5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/><path d="M9.5 14c.83 0 1.5.67 1.5 1.5v5c0 .83-.67 1.5-1.5 1.5S8 21.33 8 20.5v-5c0-.83.67-1.5 1.5-1.5z"/><path d="M3.5 14H5v1.5c0 .83-.67 1.5-1.5 1.5S2 16.33 2 15.5 2.67 14 3.5 14z"/><path d="M14 14.5c0-.83.67-1.5 1.5-1.5h5c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5h-5c-.83 0-1.5-.67-1.5-1.5z"/><path d="M15.5 19H14v1.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5-.67-1.5-1.5-1.5z"/><path d="M10 9.5C10 8.67 9.33 8 8.5 8h-5C2.67 8 2 8.67 2 9.5S2.67 11 3.5 11h5c.83 0 1.5-.67 1.5-1.5z"/><path d="M8.5 5H10V3.5C10 2.67 9.33 2 8.5 2S7 2.67 7 3.5 7.67 5 8.5 5z"/></svg></div>
+      <div class="spec-name lang-fr active">Chirurgie Thoracique</div>
+      <div class="spec-name lang-ar">جراحة الصدر</div>
+      <div class="spec-name lang-en">Thoracic Surgery</div>
+      <div class="spec-desc lang-fr active">Pathologies pleurales, pulmonaires et médiastinales par Dr. Aymen Ben Ayed</div>
+      <div class="spec-desc lang-ar">أمراض الجنب والرئة والمنصف بإشراف د. أيمن بن عياد</div>
+      <div class="spec-desc lang-en">Pleural, pulmonary and mediastinal pathologies by Dr. Aymen Ben Ayed</div>
+    </div>
+
+    <div class="spec-card">
+      <div class="spec-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 0v10m0 0 7-4"/><circle cx="12" cy="12" r="3"/></svg></div>
+      <div class="spec-name lang-fr active">Chirurgie des Cancers Digestifs</div>
+      <div class="spec-name lang-ar">جراحة سرطانات الجهاز الهضمي</div>
+      <div class="spec-name lang-en">Digestive Cancer Surgery</div>
+      <div class="spec-desc lang-fr active">Résection curative des cancers colorectaux, gastriques, hépatiques et pancréatiques avec approche oncologique multidisciplinaire</div>
+      <div class="spec-desc lang-ar">استئصال سرطانات القولون والمعدة والكبد والبنكرياس بمقاربة علاجية متعددة التخصصات</div>
+      <div class="spec-desc lang-en">Curative resection of colorectal, gastric, hepatic and pancreatic cancers with multidisciplinary oncological approach</div>
+    </div>
+    <div class="spec-card">
+      <div class="spec-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2v20M2 12h20"/><circle cx="12" cy="12" r="4"/><path d="M12 8V4M12 20v-4M8 12H4M20 12h-4"/></svg></div>
+      <div class="spec-name lang-fr active">Mise en place de Portacath</div>
+      <div class="spec-name lang-ar">تركيب منفذ كيمياء مركزي (بورتاكاث)</div>
+      <div class="spec-name lang-en">Portacath Implantation</div>
+      <div class="spec-desc lang-fr active">Pose de chambre implantable pour chimiothérapie — accès veineux central de longue durée pour les patients en traitement oncologique</div>
+      <div class="spec-desc lang-ar">تركيب غرفة وريدية مزروعة للعلاج الكيميائي — وصول وريدي مركزي طويل الأمد للمرضى الخاضعين للعلاج الورمي</div>
+      <div class="spec-desc lang-en">Implantable port placement for chemotherapy — long-term central venous access for oncology patients</div>
+    </div>
+  </div>
+</section>
+
+<!-- CONSULTATIONS -->
+<section id="consultations">
+  <p class="section-label">
+    <span class="lang-fr-inline active">Rendez-vous</span>
+    <span class="lang-ar-inline">المواعيد</span>
+    <span class="lang-en-inline">Appointments</span>
+  </p>
+  <h2 class="section-title">
+    <span class="lang-fr active">Consultations Externes</span>
+    <span class="lang-ar">الاستشارات الخارجية</span>
+    <span class="lang-en">Outpatient Consultations</span>
+  </h2>
+  <div class="section-divider"></div>
+  <div class="consult-grid">
+    <div class="consult-card">
+      <div class="consult-day">
+        <span class="lang-fr-inline active">Mardi</span>
+        <span class="lang-ar-inline">الثلاثاء</span>
+        <span class="lang-en-inline">Tuesday</span>
+      </div>
+      <div class="consult-time">08:00 – 13:00</div>
+      <div class="consult-info lang-fr active">Consultations de chirurgie viscérale et digestive. Présentation sur place ou sur rendez-vous.</div>
+      <div class="consult-info lang-ar">استشارات جراحة الجهاز الهضمي والحشوي. حضور مباشر أو بموعد مسبق.</div>
+      <div class="consult-info lang-en">Visceral and digestive surgery consultations. Walk-in or by appointment.</div>
+    </div>
+    <div class="consult-card">
+      <div class="consult-day">
+        <span class="lang-fr-inline active">Jeudi</span>
+        <span class="lang-ar-inline">الخميس</span>
+        <span class="lang-en-inline">Thursday</span>
+      </div>
+      <div class="consult-time">08:00 – 13:00</div>
+      <div class="consult-info lang-fr active">Consultations de chirurgie viscérale et digestive. Présentation sur place ou sur rendez-vous.</div>
+      <div class="consult-info lang-ar">استشارات جراحة الجهاز الهضمي والحشوي. حضور مباشر أو بموعد مسبق.</div>
+      <div class="consult-info lang-en">Visceral and digestive surgery consultations. Walk-in or by appointment.</div>
+    </div>
+  </div>
+  <div style="margin-top: 30px; padding: 24px; background: #fff8e6; border: 1px solid #f0d080; border-radius: 12px; border-left: 4px solid #e6b800;">
+    <p style="font-size: 14px; color: #5a4a00;">
+      <strong class="lang-fr active">⚠ Urgences chirurgicales</strong>
+      <strong class="lang-ar">⚠ طوارئ جراحية</strong>
+      <strong class="lang-en">⚠ Surgical Emergencies</strong>
+      <span style="display: block; margin-top: 4px; font-weight: 400;">
+        <span class="lang-fr-inline active">Pour toute urgence chirurgicale, le service est disponible 24h/24 et 7j/7 via les urgences de l'Hôpital Régional de Tataouine.</span>
+        <span class="lang-ar-inline">في حالات الطوارئ الجراحية، القسم متاح على مدار 24 ساعة 7 أيام عبر قسم الطوارئ بالمستشفى الجهوي بتطاوين.</span>
+        <span class="lang-en-inline">For surgical emergencies, the department is available 24/7 through the Emergency Department of Tataouine Regional Hospital.</span>
+      </span>
+    </p>
+  </div>
+</section>
+
+<!-- ACTUALITES -->
+<section id="actualites">
+  <p class="section-label">
+    <span class="lang-fr-inline active">Vie du Service</span>
+    <span class="lang-ar-inline">أخبار القسم</span>
+    <span class="lang-en-inline">Department News</span>
+  </p>
+  <h2 class="section-title">
+    <span class="lang-fr active">Actualités du Service</span>
+    <span class="lang-ar">آخر أخبار القسم</span>
+    <span class="lang-en">Latest News</span>
+  </h2>
+  <div class="section-divider"></div>
+  <p style="font-size:14px; color:var(--gray-mid); margin-bottom:28px; line-height:1.7;">
+    <span class="lang-fr-inline active">Retrouvez ici en temps réel les publications de notre page Facebook officielle.</span>
+    <span class="lang-ar-inline">تابع هنا في الوقت الفعلي منشورات صفحتنا الرسمية على فيسبوك.</span>
+    <span class="lang-en-inline">Follow our official Facebook page updates here in real time.</span>
+  </p>
+  <!-- Facebook Page Plugin embed -->
+  <div style="display:flex; flex-direction:column; align-items:center; gap:20px;">
+    <div id="fb-root"></div>
+    <div class="fb-page"
+         data-href="https://www.facebook.com/profile.php?id=61574371111512"
+         data-tabs="timeline"
+         data-width="700"
+         data-height="500"
+         data-small-header="false"
+         data-adapt-container-width="true"
+         data-hide-cover="false"
+         data-show-facepile="true">
+      <blockquote cite="https://www.facebook.com/profile.php?id=61574371111512" class="fb-xfbml-parse-ignore">
+        <a href="https://www.facebook.com/profile.php?id=61574371111512">Service de Chirurgie Viscérale &amp; Digestive — Tataouine</a>
+      </blockquote>
+    </div>
+    <a href="https://www.facebook.com/profile.php?id=61574371111512" target="_blank" rel="noopener"
+       style="display:inline-flex; align-items:center; gap:10px; background:#1877f2; color:#fff; padding:12px 24px; border-radius:8px; text-decoration:none; font-size:14px; font-weight:500; transition:background 0.2s;"
+       onmouseover="this.style.background='#1558b0'" onmouseout="this.style.background='#1877f2'">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+      <span class="lang-fr-inline active">Voir notre page Facebook</span>
+      <span class="lang-ar-inline">صفحتنا على فيسبوك</span>
+      <span class="lang-en-inline">Visit our Facebook page</span>
+    </a>
+  </div>
+</section>
+
+<!-- ESPACE PATIENTS -->
+<section id="patients">
+  <p class="section-label">
+    <span class="lang-fr-inline active">Éducation thérapeutique</span>
+    <span class="lang-ar-inline">التثقيف الصحي</span>
+    <span class="lang-en-inline">Patient Education</span>
+  </p>
+  <h2 class="section-title">
+    <span class="lang-fr active">Espace Patients</span>
+    <span class="lang-ar">فضاء المرضى</span>
+    <span class="lang-en">Patient Education</span>
+  </h2>
+  <div class="section-divider"></div>
+  <p style="font-size:14px; color:var(--gray-mid); margin-bottom:32px; line-height:1.7; max-width:700px;">
+    <span class="lang-fr-inline active">Notre équipe met à votre disposition des capsules vidéo éducatives pour mieux comprendre votre parcours de soins, vos pathologies et les gestes chirurgicaux réalisés.</span>
+    <span class="lang-ar-inline">يضع فريقنا تحت تصرفكم كبسولات فيديو تعليمية لفهم مسار العلاج والأمراض والتدخلات الجراحية بشكل أفضل.</span>
+    <span class="lang-en-inline">Our team provides educational video capsules to help you better understand your care pathway, conditions, and surgical procedures.</span>
+  </p>
+  <div class="capsules-grid">
+
+    <div class="capsule-card">
+      <div class="capsule-thumb">
+        <div class="capsule-coming">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="32" height="32"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          <span class="lang-fr-inline active">Vidéo à venir</span>
+          <span class="lang-ar-inline">فيديو قادم</span>
+          <span class="lang-en-inline">Coming soon</span>
+        </div>
+        <div class="capsule-num">01</div>
+      </div>
+      <div class="capsule-body">
+        <div class="capsule-tag lang-fr active">Préparation opératoire</div>
+        <div class="capsule-tag lang-ar">التحضير الجراحي</div>
+        <div class="capsule-tag lang-en">Pre-operative preparation</div>
+        <div class="capsule-title lang-fr active">On m'a appelé pour mon rendez-vous opératoire — comment me préparer ?</div>
+        <div class="capsule-title lang-ar">اتصلوا بي لموعد العملية — كيف أستعد؟</div>
+        <div class="capsule-title lang-en">I've been called for my surgery — how do I prepare?</div>
+      </div>
+    </div>
+
+    <div class="capsule-card">
+      <div class="capsule-thumb">
+        <div class="capsule-coming">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="32" height="32"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          <span class="lang-fr-inline active">Vidéo à venir</span>
+          <span class="lang-ar-inline">فيديو قادم</span>
+          <span class="lang-en-inline">Coming soon</span>
+        </div>
+        <div class="capsule-num">02</div>
+      </div>
+      <div class="capsule-body">
+        <div class="capsule-tag lang-fr active">Post-opératoire</div>
+        <div class="capsule-tag lang-ar">ما بعد العملية</div>
+        <div class="capsule-tag lang-en">Post-operative care</div>
+        <div class="capsule-title lang-fr active">Que faire en post-opératoire ?</div>
+        <div class="capsule-title lang-ar">ماذا أفعل بعد العملية؟</div>
+        <div class="capsule-title lang-en">What to do after surgery?</div>
+      </div>
+    </div>
+
+    <div class="capsule-card">
+      <div class="capsule-thumb">
+        <div class="capsule-coming">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="32" height="32"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          <span class="lang-fr-inline active">Vidéo à venir</span>
+          <span class="lang-ar-inline">فيديو قادم</span>
+          <span class="lang-en-inline">Coming soon</span>
+        </div>
+        <div class="capsule-num">03</div>
+      </div>
+      <div class="capsule-body">
+        <div class="capsule-tag lang-fr active">Stomie</div>
+        <div class="capsule-tag lang-ar">الفغر</div>
+        <div class="capsule-tag lang-en">Stoma care</div>
+        <div class="capsule-title lang-fr active">Qu'est-ce que la stomie et comment la gérer ?</div>
+        <div class="capsule-title lang-ar">ما هو الفغر وكيف أتعامل معه؟</div>
+        <div class="capsule-title lang-en">What is a stoma and how to manage it?</div>
+      </div>
+    </div>
+
+    <div class="capsule-card">
+      <div class="capsule-thumb">
+        <div class="capsule-coming">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="32" height="32"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          <span class="lang-fr-inline active">Vidéo à venir</span>
+          <span class="lang-ar-inline">فيديو قادم</span>
+          <span class="lang-en-inline">Coming soon</span>
+        </div>
+        <div class="capsule-num">04</div>
+      </div>
+      <div class="capsule-body">
+        <div class="capsule-tag lang-fr active">Chirurgie laparoscopique</div>
+        <div class="capsule-tag lang-ar">جراحة المنظار</div>
+        <div class="capsule-tag lang-en">Laparoscopic surgery</div>
+        <div class="capsule-title lang-fr active">L'ablation de la vésicule biliaire sous cœlioscopie</div>
+        <div class="capsule-title lang-ar">استئصال المرارة بالمنظار</div>
+        <div class="capsule-title lang-en">Laparoscopic cholecystectomy explained</div>
+      </div>
+    </div>
+
+    <div class="capsule-card">
+      <div class="capsule-thumb">
+        <div class="capsule-coming">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="32" height="32"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          <span class="lang-fr-inline active">Vidéo à venir</span>
+          <span class="lang-ar-inline">فيديو قادم</span>
+          <span class="lang-en-inline">Coming soon</span>
+        </div>
+        <div class="capsule-num">05</div>
+      </div>
+      <div class="capsule-body">
+        <div class="capsule-tag lang-fr active">Hernie inguinale</div>
+        <div class="capsule-tag lang-ar">الفتق الأربي</div>
+        <div class="capsule-tag lang-en">Inguinal hernia</div>
+        <div class="capsule-title lang-fr active">Qu'est-ce que la pathologie herniaire inguinale ?</div>
+        <div class="capsule-title lang-ar">ما هو الفتق الأربي؟</div>
+        <div class="capsule-title lang-en">What is inguinal hernia disease?</div>
+      </div>
+    </div>
+
+    <div class="capsule-card">
+      <div class="capsule-thumb">
+        <div class="capsule-coming">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="32" height="32"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          <span class="lang-fr-inline active">Vidéo à venir</span>
+          <span class="lang-ar-inline">فيديو قادم</span>
+          <span class="lang-en-inline">Coming soon</span>
+        </div>
+        <div class="capsule-num">06</div>
+      </div>
+      <div class="capsule-body">
+        <div class="capsule-tag lang-fr active" style="background:#fff0f0; color:#c0392b; border-color:#f5c0bc;">Oncologie</div>
+        <div class="capsule-tag lang-ar" style="background:#fff0f0; color:#c0392b; border-color:#f5c0bc;">الأورام</div>
+        <div class="capsule-tag lang-en" style="background:#fff0f0; color:#c0392b; border-color:#f5c0bc;">Oncology</div>
+        <div class="capsule-title lang-fr active">Cancer colorectal — comprendre et agir</div>
+        <div class="capsule-title lang-ar">سرطان القولون والمستقيم — فهم وتصرف</div>
+        <div class="capsule-title lang-en">Colorectal cancer — understanding and action</div>
+      </div>
+    </div>
+
+    <div class="capsule-card">
+      <div class="capsule-thumb">
+        <div class="capsule-coming">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="32" height="32"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          <span class="lang-fr-inline active">Vidéo à venir</span>
+          <span class="lang-ar-inline">فيديو قادم</span>
+          <span class="lang-en-inline">Coming soon</span>
+        </div>
+        <div class="capsule-num">07</div>
+      </div>
+      <div class="capsule-body">
+        <div class="capsule-tag lang-fr active" style="background:#fff0f0; color:#c0392b; border-color:#f5c0bc;">Oncologie</div>
+        <div class="capsule-tag lang-ar" style="background:#fff0f0; color:#c0392b; border-color:#f5c0bc;">الأورام</div>
+        <div class="capsule-tag lang-en" style="background:#fff0f0; color:#c0392b; border-color:#f5c0bc;">Oncology</div>
+        <div class="capsule-title lang-fr active">Cancer gastrique — diagnostic et prise en charge</div>
+        <div class="capsule-title lang-ar">سرطان المعدة — التشخيص والعلاج</div>
+        <div class="capsule-title lang-en">Gastric cancer — diagnosis and management</div>
+      </div>
+    </div>
+
+    <div class="capsule-card">
+      <div class="capsule-thumb">
+        <div class="capsule-coming">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="32" height="32"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          <span class="lang-fr-inline active">Vidéo à venir</span>
+          <span class="lang-ar-inline">فيديو قادم</span>
+          <span class="lang-en-inline">Coming soon</span>
+        </div>
+        <div class="capsule-num">08</div>
+      </div>
+      <div class="capsule-body">
+        <div class="capsule-tag lang-fr active" style="background:#e8f8f0; color:#1a7a4a; border-color:#a8e0c0;">Dépistage</div>
+        <div class="capsule-tag lang-ar" style="background:#e8f8f0; color:#1a7a4a; border-color:#a8e0c0;">الكشف المبكر</div>
+        <div class="capsule-tag lang-en" style="background:#e8f8f0; color:#1a7a4a; border-color:#a8e0c0;">Screening</div>
+        <div class="capsule-title lang-fr active">Dépistage du cancer colorectal — pourquoi et comment ?</div>
+        <div class="capsule-title lang-ar">الكشف المبكر عن سرطان القولون — لماذا وكيف؟</div>
+        <div class="capsule-title lang-en">Colorectal cancer screening — why and how?</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div style="margin-top:28px; text-align:center;">
+    <a href="https://www.youtube.com/channel/UC2JV5nz3xDtEICXYqHn5sqg" target="_blank" rel="noopener"
+       style="display:inline-flex; align-items:center; gap:10px; background:#ff0000; color:#fff; padding:12px 26px; border-radius:8px; text-decoration:none; font-size:14px; font-weight:500;">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+      <span class="lang-fr-inline active">Notre chaîne YouTube</span>
+      <span class="lang-ar-inline">قناتنا على يوتيوب</span>
+      <span class="lang-en-inline">Our YouTube Channel</span>
+    </a>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <p class="section-label">
+    <span class="lang-fr-inline active">Nous trouver</span>
+    <span class="lang-ar-inline">موقعنا</span>
+    <span class="lang-en-inline">Find us</span>
+  </p>
+  <h2 class="section-title">
+    <span class="lang-fr active">Contact & Localisation</span>
+    <span class="lang-ar">التواصل والموقع</span>
+    <span class="lang-en">Contact & Location</span>
+  </h2>
+  <div class="section-divider"></div>
+
+  <!-- Contact cards grid -->
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:40px; margin-bottom:32px;">
+    <div>
+      <h3 style="font-family:'Cormorant Garamond',serif; font-size:18px; color:var(--blue-deep); margin-bottom:20px; padding-bottom:10px; border-bottom:1px solid var(--accent);">
+        <span class="lang-fr-inline active">Service — Hôpital Régional</span>
+        <span class="lang-ar-inline">القسم — المستشفى الجهوي</span>
+        <span class="lang-en-inline">Department — Regional Hospital</span>
+      </h3>
+      <div class="contact-item">
+        <div class="contact-icon"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+        <div>
+          <div class="contact-label lang-fr active">Adresse</div>
+          <div class="contact-label lang-ar">العنوان</div>
+          <div class="contact-label lang-en">Address</div>
+          <div class="contact-value lang-fr active">Hôpital Régional de Tataouine<br/>Service de Chirurgie Viscérale & Digestive<br/>Tataouine, Tunisie</div>
+          <div class="contact-value lang-ar">المستشفى الجهوي بتطاوين<br/>قسم جراحة الجهاز الهضمي و الأمعاء<br/>تطاوين، تونس</div>
+          <div class="contact-value lang-en">Tataouine Regional Hospital<br/>Department of Visceral & Digestive Surgery<br/>Tataouine, Tunisia</div>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 4.18 2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg></div>
+        <div>
+          <div class="contact-label lang-fr active">Téléphone du Service</div>
+          <div class="contact-label lang-ar">هاتف القسم</div>
+          <div class="contact-label lang-en">Department Phone</div>
+          <div class="contact-value"><a href="tel:+21675109001" style="color:var(--blue-mid); text-decoration:none;">+216 75 109 001</a></div>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+        <div>
+          <div class="contact-label lang-fr active">Email du Service</div>
+          <div class="contact-label lang-ar">البريد الإلكتروني</div>
+          <div class="contact-label lang-en">Service Email</div>
+          <div class="contact-value"><a href="mailto:generalsurgerytataouine@gmail.com" style="color:var(--blue-mid); text-decoration:none; font-size:13px;">generalsurgerytataouine@gmail.com</a></div>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon" style="background:#e8f0fe;">
+          <svg viewBox="0 0 24 24" fill="#1877f2" width="20" height="20"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+        </div>
+        <div>
+          <div class="contact-label" style="color:#1877f2;">Facebook</div>
+          <div class="contact-value"><a href="https://www.facebook.com/profile.php?id=61574371111512" target="_blank" rel="noopener" style="color:#1877f2; text-decoration:none; font-size:13px;">
+            <span class="lang-fr-inline active">Page officielle du service</span>
+            <span class="lang-ar-inline">الصفحة الرسمية للقسم</span>
+            <span class="lang-en-inline">Official department page</span>
+          </a></div>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+        <div>
+          <div class="contact-label lang-fr active">Consultations externes</div>
+          <div class="contact-label lang-ar">الاستشارات الخارجية</div>
+          <div class="contact-label lang-en">Outpatient clinics</div>
+          <div class="contact-value lang-fr active">Mardi & Jeudi — 8h00 à 13h00</div>
+          <div class="contact-value lang-ar">الثلاثاء والخميس — من 8:00 إلى 13:00</div>
+          <div class="contact-value lang-en">Tuesday & Thursday — 8:00 AM to 1:00 PM</div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <h3 style="font-family:'Cormorant Garamond',serif; font-size:18px; color:var(--blue-deep); margin-bottom:20px; padding-bottom:10px; border-bottom:1px solid var(--accent);">
+        <span class="lang-fr-inline active">Chef de Service</span>
+        <span class="lang-ar-inline">رئيس القسم</span>
+        <span class="lang-en-inline">Head of Department</span>
+      </h3>
+      <div class="contact-item">
+        <div class="contact-icon" style="background:#e8fdf0;">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="#25d366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        </div>
+        <div>
+          <div class="contact-label" style="color:#25d366;">WhatsApp</div>
+          <div class="contact-value"><a href="https://wa.me/21655525056" target="_blank" rel="noopener" style="color:#25d366; text-decoration:none;">+216 55 525 056</a></div>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 4.18 2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg></div>
+        <div>
+          <div class="contact-label lang-fr active">Téléphone</div>
+          <div class="contact-label lang-ar">هاتف</div>
+          <div class="contact-label lang-en">Phone</div>
+          <div class="contact-value"><a href="tel:+21655525056" style="color:var(--blue-mid); text-decoration:none;">+216 55 525 056</a></div>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+        <div>
+          <div class="contact-label lang-fr active">Email personnel</div>
+          <div class="contact-label lang-ar">البريد الشخصي</div>
+          <div class="contact-label lang-en">Personal Email</div>
+          <div class="contact-value"><a href="mailto:dr.abderrahmen.masmoudi@gmail.com" style="color:var(--blue-mid); text-decoration:none; font-size:13px;">dr.abderrahmen.masmoudi@gmail.com</a></div>
+        </div>
+      </div>
+      <div style="margin-top:24px; background:var(--blue-ultra); border:1px solid var(--accent); border-radius:12px; overflow:hidden; min-height:180px; display:flex; align-items:center; justify-content:center;">
+        <div style="text-align:center; color:var(--gray-mid); padding:20px;">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" style="opacity:0.3; margin-bottom:10px;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <p style="font-size:12px; opacity:0.5;">
+            <span class="lang-fr-inline active">Carte Google Maps<br/>à intégrer</span>
+            <span class="lang-ar-inline">خريطة غوغل<br/>قيد الإضافة</span>
+            <span class="lang-en-inline">Google Maps<br/>to be integrated</span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <p>
+    <strong class="lang-fr active">Service de Chirurgie Viscérale & Digestive</strong>
+    <strong class="lang-ar">قسم جراحة الجهاز الهضمي و الأمعاء</strong>
+    <strong class="lang-en">Department of Visceral & Digestive Surgery</strong>
+  </p>
+  <p style="margin-top: 6px;">
+    <span class="lang-fr-inline active">Hôpital Régional de Tataouine — Service Hospitalo-Universitaire depuis 2019</span>
+    <span class="lang-ar-inline">المستشفى الجهوي بتطاوين — قسم استشفائي جامعي منذ 2019</span>
+    <span class="lang-en-inline">Tataouine Regional Hospital — University Hospital Unit since 2019</span>
+  </p>
+  <div style="display:flex; justify-content:center; gap:20px; margin-top:18px; flex-wrap:wrap;">
+    <a href="tel:+21675109001" style="color:rgba(255,255,255,0.7); text-decoration:none; font-size:13px; display:flex; align-items:center; gap:6px;">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 4.18 2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+      +216 75 109 001
+    </a>
+    <a href="mailto:generalsurgerytataouine@gmail.com" style="color:rgba(255,255,255,0.7); text-decoration:none; font-size:13px; display:flex; align-items:center; gap:6px;">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      generalsurgerytataouine@gmail.com
+    </a>
+    <a href="https://www.facebook.com/profile.php?id=61574371111512" target="_blank" rel="noopener" style="color:rgba(255,255,255,0.7); text-decoration:none; font-size:13px; display:flex; align-items:center; gap:6px;">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+      Facebook
+    </a>
+    <a href="https://wa.me/21655525056" target="_blank" rel="noopener" style="color:rgba(255,255,255,0.7); text-decoration:none; font-size:13px; display:flex; align-items:center; gap:6px;">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      WhatsApp
+    </a>
+  </div>
+  <p style="margin-top: 16px; font-size: 12px; opacity: 0.4;">visceral-surgery-tataouine.com</p>
+</footer>
+
+<!-- Facebook SDK -->
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v18.0"></script>
+
+<script>
+function setLang(lang) {
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+  document.querySelector('[onclick="setLang(\'' + lang + '\')"]').classList.add('active');
+  ['fr','ar','en'].forEach(l => {
+    document.querySelectorAll('.lang-' + l).forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.lang-' + l + '-inline').forEach(el => el.classList.remove('active'));
+  });
+  document.querySelectorAll('.lang-' + lang).forEach(el => el.classList.add('active'));
+  document.querySelectorAll('.lang-' + lang + '-inline').forEach(el => el.classList.add('active'));
+  document.documentElement.lang = lang;
+  document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+  if (window.FB) FB.XFBML.parse();
+}
+</script>
+</body>
+</html>
