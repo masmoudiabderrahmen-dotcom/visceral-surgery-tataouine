@@ -390,6 +390,36 @@ function api(params) {
   });
 }
 
+
+// ── CACHE SYSTEM ──
+const CACHE_TTL = 30000; // 30 seconds
+
+function cacheSet(key, data) {
+  localStorage.setItem('cache_' + key, JSON.stringify({data, ts: Date.now()}));
+}
+
+function cacheGet(key, ttl) {
+  const raw = localStorage.getItem('cache_' + key);
+  if (!raw) return null;
+  const {data, ts} = JSON.parse(raw);
+  if (Date.now() - ts > (ttl || CACHE_TTL)) return null;
+  return data;
+}
+
+function cacheClear(key) {
+  localStorage.removeItem('cache_' + key);
+}
+
+// Cached API call
+async function apiCached(params, ttl) {
+  const key = JSON.stringify(params);
+  const cached = cacheGet(key, ttl);
+  if (cached) return cached;
+  const result = await api(params);
+  if (!result.error) cacheSet(key, result);
+  return result;
+}
+
 // ── HELPERS ──
 function driveUrl(link) {
   if (!link || link.trim() === '') return '';
@@ -500,6 +530,9 @@ function startApp() {
     document.getElementById('navEquipe').style.display='flex';
     document.getElementById('navMessages').style.display='flex';
   }
+  // Preload members cache in background
+  apiCached({action:'getMembers'}, 300000);
+  apiCached({action:'getActualites'}, 60000);
   renderAccueil();
   showPage('accueil');
 }
@@ -533,8 +566,8 @@ async function renderAccueil() {
   // Stats for admin
   if (CU.level===1) {
     const [mr, ar, msgr] = await Promise.all([
-      api({action:'getMembers'}),
-      api({action:'getActualites'}),
+      apiCached({action:'getMembers'}, 300000),
+      apiCached({action:'getActualites'}, 60000),
       api({action:'getMessages'})
     ]);
     const unread = (msgr.messages||[]).filter(m=>!m.read).length;
@@ -547,7 +580,7 @@ async function renderAccueil() {
 
   // Last actu
   try {
-    const ar = await api({action:'getActualites'});
+    const ar = await apiCached({action:'getActualites'}, 60000);
     const actus = ar.actualites||[];
     const hap = document.getElementById('homeActu');
     if (actus.length===0) { hap.innerHTML='<span style="color:var(--gray-mid);font-size:13px;">Aucune actualité.</span>'; }
@@ -596,7 +629,7 @@ async function renderActualites() {
   const list = document.getElementById('actuList');
   list.innerHTML='<div class="loading-overlay"><span class="spinner"></span> Chargement...</div>';
   try {
-    const r = await api({action:'getActualites'});
+    const r = await apiCached({action:'getActualites'}, 60000);
     const actus = r.actualites||[];
     if (actus.length===0) { list.innerHTML='<div class="alert alert-info">Aucune actualité.</div>'; return; }
     list.innerHTML = [...actus].reverse().map(a => {
@@ -623,6 +656,7 @@ async function publishActu() {
     const actu = {id:Date.now(),link,caption,author:CU.name,date:new Date().toLocaleDateString('fr-FR',{day:'2-digit',month:'long',year:'numeric'})};
     const r = await api({action:'addActualite', actu:JSON.stringify(actu)});
     if (r.success) {
+      cacheClear(JSON.stringify({action:'getActualites'}));
       document.getElementById('aLink').value='';
       document.getElementById('aCaption').value='';
       fb.innerHTML='<div class="alert alert-success">✅ Publiée !</div>';
@@ -637,7 +671,7 @@ async function renderAdminActu() {
   if (!list) return;
   list.innerHTML='<div class="loading-overlay"><span class="spinner"></span></div>';
   try {
-    const r = await api({action:'getActualites'});
+    const r = await apiCached({action:'getActualites'}, 60000);
     const actus = r.actualites||[];
     if (actus.length===0) { list.innerHTML='<p style="font-size:13px;color:var(--gray-mid);">Aucune.</p>'; return; }
     list.innerHTML = [...actus].reverse().map(a => {
@@ -653,6 +687,7 @@ async function renderAdminActu() {
 
 async function deleteActu(id) {
   if (!confirm('Supprimer ?')) return;
+  cacheClear(JSON.stringify({action:'getActualites'}));
   const r = await api({action:'deleteActualite', id:String(id)});
   if (r.success) renderAdminActu();
   else alert(r.error||'Erreur');
@@ -700,7 +735,7 @@ async function renderVote() {
   document.getElementById('voteMonthSub').textContent = monthLabel(mo);
   content.innerHTML='<div class="loading-overlay"><span class="spinner"></span> Chargement...</div>';
   try {
-    const [mr, vr] = await Promise.all([api({action:'getMembers'}), api({action:'getVotes',month:mo})]);
+    const [mr, vr] = await Promise.all([apiCached({action:'getMembers'}, 300000), apiCached({action:'getVotes',month:mo}, 10000)]);
     const members = mr.members||[];
     const votes = vr.votes||{};
 
@@ -759,6 +794,7 @@ async function castVote(tid) {
       targetId: String(tid)
     });
     if (r.success) {
+      cacheClear(JSON.stringify({action:'getVotes',month:mo}));
       // Show immediate feedback without waiting for re-render
       const content = document.getElementById('voteContent');
       content.innerHTML = '<div class="alert alert-success" style="font-size:15px;padding:20px;">✅ Vote enregistré avec succès !<br/><br/>Vous avez voté pour <strong>' + (w ? w.name : tid) + '</strong> pour le mois de ' + monthLabel(currentMonth()) + '.</div>';
@@ -781,7 +817,7 @@ async function renderEquipe() {
   const grid = document.getElementById('memberGrid');
   grid.innerHTML='<div class="loading-overlay"><span class="spinner"></span></div>';
   try {
-    const r = await api({action:'getMembers'});
+    const r = await apiCached({action:'getMembers'}, 300000);
     const members = r.members||[];
     grid.innerHTML = members.map(m=>`
       <div class="member-mini">
@@ -810,6 +846,7 @@ async function createMember() {
   try {
     const r=await api({action:'addMember',member:JSON.stringify({id:'u'+Date.now(),username,password,name,role,photo:photo||'',level:4})});
     if(r.success){
+      cacheClear(JSON.stringify({action:'getMembers'}));
       document.getElementById('nName').value='';document.getElementById('nUser').value='';document.getElementById('nPass').value='';document.getElementById('nPhoto').value='';
       fb.innerHTML=`<div class="alert alert-success">✅ Compte créé — ID: <strong>${username}</strong> — MDP: <strong>${password}</strong></div>`;
       renderEquipe();
@@ -828,6 +865,7 @@ async function editPhoto(id) {
 
 async function delMember(id) {
   if(!confirm('Supprimer ce membre ?'))return;
+  cacheClear(JSON.stringify({action:'getMembers'}));
   const r=await api({action:'deleteMember',id});
   if(r.success) renderEquipe();
   else alert(r.error||'Erreur');
