@@ -127,69 +127,111 @@ body{font-family:'Segoe UI',Tahoma,sans-serif;background:#f0f4f8;color:var(--gra
 .note-box{background:#fff8e6;border:1px solid #f0d080;border-left:4px solid var(--gold);border-radius:10px;padding:14px 16px;font-size:13px;color:#5a4a00;margin-bottom:20px;line-height:1.6;}
 
 
-/* ── MOBILE FIXES ── */
+
+/* ── MOBILE ── */
 @media (max-width: 768px) {
-  .topbar { padding: 10px 14px; flex-wrap: wrap; gap: 8px; }
+
+  /* TOPBAR */
+  .topbar { padding: 10px 12px; }
   .topbar-title { font-size: 12px; }
-  .topbar-user { font-size: 11px; gap: 8px; }
-  .app-body { flex-direction: column; }
-  .sidebar { 
-    width: 100% !important; 
-    display: flex; 
-    flex-direction: row; 
-    flex-wrap: wrap;
-    padding: 8px; 
-    border-right: none; 
-    border-bottom: 1px solid var(--accent);
-    gap: 4px;
+  .topbar-title img { width: 28px; height: 28px; }
+  .topbar-user { font-size: 11px; gap: 6px; }
+  .btn-logout { padding: 5px 10px; font-size: 11px; }
+  .back-link { display: none; }
+
+  /* SIDEBAR → bottom tab bar */
+  .app-body { flex-direction: column-reverse; }
+  .sidebar {
+    width: 100% !important;
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    z-index: 200;
+    background: var(--white);
+    border-top: 1px solid var(--accent);
+    border-right: none;
+    padding: 4px 0 6px;
+    display: flex !important;
+    flex-direction: row;
+    justify-content: space-around;
+    box-shadow: 0 -2px 12px rgba(13,59,110,0.1);
   }
   .sidebar-section { display: none !important; }
-  .sidebar-link { 
-    padding: 8px 10px; 
-    font-size: 11px; 
-    border-left: none !important;
-    border-bottom: 2px solid transparent !important;
-    border-radius: 6px;
+  .sidebar-link {
     flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 4px 2px;
+    font-size: 10px;
+    border-left: none !important;
+    border-top: 3px solid transparent;
     gap: 2px;
+    flex: 1;
+    min-width: 0;
+  }
+  .sidebar-link.active {
+    border-top-color: var(--blue-mid);
+    background: var(--blue-pale);
+  }
+  .sidebar-icon { font-size: 20px; width: auto; line-height: 1; }
+  .sidebar-link > span:not(.sidebar-icon):not(.badge) {
+    font-size: 9px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 56px;
+  }
+  .badge { margin-left: 0; font-size: 9px; padding: 1px 5px; }
+
+  /* CONTENT — add bottom padding for fixed tab bar */
+  .content {
+    padding: 14px 14px 80px 14px;
+    overflow-y: auto;
+    flex: 1;
+  }
+
+  /* CARDS & LAYOUT */
+  .card { padding: 14px; }
+  .page-title { font-size: 18px; }
+  .page-sub { font-size: 12px; }
+  .grid-2 { grid-template-columns: 1fr !important; gap: 12px; }
+  .grid-3 { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)) !important; gap: 10px; }
+  .stat-row { gap: 8px; }
+  .stat-box { padding: 10px 8px; min-width: 0; }
+  .stat-box .sn { font-size: 20px; }
+  .stat-box .sl { font-size: 11px; }
+
+  /* FORMS */
+  .field-group input, .field-group select, .field-group textarea {
+    font-size: 16px; /* prevents iOS zoom */
+  }
+  .btn { padding: 12px 16px; width: 100%; }
+  .btn-sm { width: auto; padding: 6px 12px; }
+
+  /* MESSAGES */
+  .msg-card { padding: 12px; }
+  .msg-header { flex-direction: column; gap: 3px; align-items: flex-start; }
+  .note-box { font-size: 12px; padding: 12px; }
+
+  /* VOTE */
+  .vote-card { padding: 12px 10px; gap: 10px; }
+  .vote-name { font-size: 13px; }
+  .vote-img { width: 44px; height: 52px; border-radius: 6px; }
+  .winner-banner { padding: 20px 14px; }
+  .winner-banner .wn { font-size: 18px; }
+
+  /* TEAM GRID */
+  .member-mini { padding: 10px; }
+  .member-mini .m-name { font-size: 11px; }
+
+  /* ACTU */
+  .actu-card { border-radius: 10px; }
+  .actu-body { padding: 12px; }
+
+  /* PROFILE */
+  div[style*="display:flex;gap:20px;align-items:center"] {
+    flex-direction: column !important;
     text-align: center;
   }
-  .sidebar-link.active { 
-    background: var(--blue-pale); 
-    border-bottom-color: var(--blue-mid) !important; 
-  }
-  .sidebar-icon { font-size: 16px; width: auto; }
-  .sidebar-link span:not(.sidebar-icon):not(.badge) { font-size: 10px; }
-  .badge { margin-left: 0; }
-  .content { padding: 16px; }
-  .page-title { font-size: 18px; }
-  .grid-2 { grid-template-columns: 1fr !important; }
-  .grid-3 { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)) !important; }
-  .card { padding: 16px; }
-  .stat-row { gap: 8px; }
-  .stat-box { padding: 12px; min-width: 80px; }
-  .stat-box .sn { font-size: 22px; }
-  .vote-card { padding: 12px; gap: 10px; }
-  .vote-name { font-size: 13px; }
-  .winner-banner { padding: 20px 16px; }
-  .winner-banner .wn { font-size: 20px; }
-  div[style*="display:flex;gap:36px"] { flex-direction: column !important; gap: 20px !important; }
-  div[style*="display:flex;gap:20px;align-items:center"] { flex-direction: column !important; }
-  .msg-card { padding: 12px; }
-  .msg-header { flex-direction: column; gap: 4px; align-items: flex-start; }
-}
-@media (max-width: 480px) {
-  .sidebar-link span:not(.sidebar-icon):not(.badge) { display: none; }
-  .sidebar-icon { font-size: 20px; }
-  .sidebar-link { padding: 10px 14px; }
-}
-
-@media(max-width:700px){
-  .sidebar{width:56px;}
-  .sidebar-link span,.sidebar-section{display:none;}
-  .sidebar-icon{width:100%;text-align:center;}
-  .grid-2{grid-template-columns:1fr;}
-  .content{padding:16px;}
 }
 
 /* ── LIGHTBOX ── */
@@ -444,7 +486,7 @@ let CU=null;
 // ── SESSION PERSISTENCE ──
 function saveSession() {
   if (CU) {
-    sessionStorage.setItem('chirurg_session', JSON.stringify({
+    localStorage.setItem('chirurg_session', JSON.stringify({
       id: CU.id,
       username: CU.username,
       ts: Date.now()
@@ -453,12 +495,12 @@ function saveSession() {
 }
 
 function restoreSession() {
-  const raw = sessionStorage.getItem('chirurg_session');
+  const raw = localStorage.getItem('chirurg_session');
   if (!raw) return false;
   const s = JSON.parse(raw);
   // Session valid for 8 hours
-  if (Date.now() - s.ts > 8 * 60 * 60 * 1000) {
-    sessionStorage.removeItem('chirurg_session');
+  if (Date.now() - s.ts > 24 * 60 * 60 * 1000) {
+    localStorage.removeItem('chirurg_session');
     return false;
   }
   const d = getData();
@@ -507,7 +549,7 @@ function doLogin(){
 
 function doLogout(){
   CU=null;
-  sessionStorage.removeItem('chirurg_session');
+  localStorage.removeItem('chirurg_session');
   document.getElementById('app').classList.remove('visible');
   document.getElementById('loginPage').style.display='flex';
   document.getElementById('loginUser').value='';
@@ -626,11 +668,25 @@ function sendMessage(){
 }
 
 function renderAdminMessages(){
-  const d=getData();const list=document.getElementById('adminMsgList');
-  if(d.messages.length===0){list.innerHTML='<div class="alert alert-info">Aucun message reçu.</div>';return;}
-  d.messages.forEach(m=>m.read=true);save(d);
-  document.getElementById('adminMsgBadge').style.display='none';
-  list.innerHTML=[...d.messages].reverse().map(m=>`<div class="msg-card"><div class="msg-header"><span class="msg-from ${m.from?'':'msg-anon'}">${m.fromName}</span><span class="msg-date">${m.date}</span></div><div class="msg-text">${m.text}</div></div>`).join('');
+  const d=getData();
+  const list=document.getElementById('adminMsgList');
+  if(!list)return;
+  if(!d.messages||d.messages.length===0){
+    list.innerHTML='<div class="alert alert-info">Aucun message reçu.</div>';
+    return;
+  }
+  d.messages.forEach(m=>m.read=true);
+  save(d);
+  const badge=document.getElementById('adminMsgBadge');
+  if(badge)badge.style.display='none';
+  list.innerHTML=[...d.messages].reverse().map(m=>`
+    <div class="msg-card">
+      <div class="msg-header">
+        <span class="msg-from ${m.from?'':'msg-anon'}">${m.fromName||'Anonyme'}</span>
+        <span class="msg-date">${m.date||''}</span>
+      </div>
+      <div class="msg-text">${m.text||''}</div>
+    </div>`).join('');
 }
 
 function checkMsgBadge(){
@@ -674,9 +730,10 @@ function renderVote(){
 
 function castVote(tid){
   const w=getData().members.find(m=>m.id===tid);
-  if(!confirm('Confirmer votre vote pour '+( w?w.name:'?')+' ?'))return;
+  if(!confirm('Confirmer votre vote pour '+(w?w.name:'?')+' ?'))return;
   const d=getData();const mo=currentMonth();
   if(!d.votes[mo])d.votes[mo]={};
+  if(d.votes[mo][CU.id]){alert('Vous avez déjà voté ce mois.');return;}
   d.votes[mo][CU.id]=tid;
   // Auto-set winner if 1st of month
   const today=new Date();
