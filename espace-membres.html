@@ -355,7 +355,7 @@ body{font-family:'Segoe UI',Tahoma,sans-serif;background:#f0f4f8;color:var(--gra
 </div>
 
 <script>
-const API = 'https://script.google.com/macros/s/AKfycbzOziL9NCEU8JWLILGqR408d2CjCSujPKNPpeE8lgTcTKTMZ05c0uVbGENmv8sbeDin/exec';
+const API = 'https://script.google.com/macros/s/AKfycbywKkJa02rk2Ze_c5apsgj9t5PhyMZqrNojvS9H9xs4tRYvo-8X5Iq1kKiwNxG4dXqz/exec';
 let CU = null; // current user
 
 // ── API CALL ──
@@ -423,8 +423,17 @@ function togglePwd() {
 document.getElementById('lp').addEventListener('keypress', e => { if(e.key==='Enter') doLogin(); });
 
 async function doLogin() {
-  const u = document.getElementById('lu').value.trim().toLowerCase();
-  const p = document.getElementById('lp').value.trim();
+  // Aggressive cleanup for mobile keyboards
+  const u = document.getElementById('lu').value
+    .trim().toLowerCase()
+    .replace(/[^ -~]/g, ''); // remove non-ASCII
+  const p = document.getElementById('lp').value
+    .trim()
+    .replace(/[’‘]/g, "'")  // smart quotes
+    .replace(/[“”]/g, '"')  // smart double quotes
+    .replace(/·/g, '.')          // middle dot
+    .replace(/\s+/g, '');             // remove all spaces
+  console.log('Login attempt - user:', JSON.stringify(u), 'pass length:', p.length);
   if (!u||!p) return;
   document.getElementById('loginBtn').style.display='none';
   document.getElementById('loginLoading').style.display='block';
