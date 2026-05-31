@@ -759,27 +759,20 @@ async function castVote(tid) {
       targetId: String(tid)
     });
     if (r.success) {
-      // Auto-set winner if 1st of month
-      const today = new Date();
-      if (today.getDate() === 1) {
-        const pd = new Date(); pd.setDate(0);
-        const pm = pd.getFullYear()+'-'+String(pd.getMonth()+1).padStart(2,'0');
-        const vr2 = await api({action:'getVotes', month:pm});
-        const votes2 = vr2.votes||{};
-        const counts2 = {};
-        Object.values(votes2).forEach(v=>{counts2[v]=(counts2[v]||0)+1;});
-        const wid = Object.entries(counts2).sort((a,b)=>b[1]-a[1])[0]?.[0];
-        if (wid) await api({action:'setWinner', month:pm, winnerId:wid});
-      }
-      renderVote();
-      renderAccueil();
+      // Show immediate feedback without waiting for re-render
+      const content = document.getElementById('voteContent');
+      content.innerHTML = '<div class="alert alert-success" style="font-size:15px;padding:20px;">✅ Vote enregistré avec succès !<br/><br/>Vous avez voté pour <strong>' + (w ? w.name : tid) + '</strong> pour le mois de ' + monthLabel(currentMonth()) + '.</div>';
+      document.getElementById('voteBadge').style.display = 'none';
+      // Update home vote status
+      const hvEl = document.getElementById('homeVote');
+      if (hvEl) hvEl.innerHTML = '<div class="alert alert-success" style="font-size:12px;">✅ Voté pour <strong>' + (w ? w.name : tid) + '</strong></div>';
     } else {
-      alert(r.error||'Erreur lors du vote');
-      if(btn) btn.style.opacity='1';
+      alert(r.error || 'Erreur lors du vote');
+      if (btn) btn.style.opacity = '1';
     }
   } catch(e) {
-    alert('Erreur réseau: ' + e.message);
-    if(btn) btn.style.opacity='1';
+    alert('Erreur: ' + e.message);
+    if (btn) btn.style.opacity = '1';
   }
 }
 
