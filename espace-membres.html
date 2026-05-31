@@ -355,7 +355,7 @@ body{font-family:'Segoe UI',Tahoma,sans-serif;background:#f0f4f8;color:var(--gra
 </div>
 
 <script>
-const API = 'https://script.google.com/macros/s/AKfycbywKkJa02rk2Ze_c5apsgj9t5PhyMZqrNojvS9H9xs4tRYvo-8X5Iq1kKiwNxG4dXqz/exec';
+const API = 'https://script.google.com/macros/s/AKfycbzZX6N1RqQ21QBY8rBpzzEABIM2gvV1E3PImJQy2fNxev3ecmb4NA8MWU9AHA5VzRID/exec';
 let CU = null;
 
 // ── API CALL via JSONP (bypasses CORS) ──
@@ -730,52 +730,97 @@ async function renderAdminMessages() {
 
 // ── VOTE ──
 async function renderVote() {
-  const content = document.getElementById('voteContent');
+  const el = document.getElementById('voteContent');
   const mo = currentMonth();
   document.getElementById('voteMonthSub').textContent = monthLabel(mo);
-  content.innerHTML='<div class="loading-overlay"><span class="spinner"></span> Chargement...</div>';
+  el.innerHTML = '<div class="loading-overlay"><span class="spinner"></span> Chargement...</div>';
   try {
-    const [mr, vr] = await Promise.all([apiCached({action:'getMembers'}, 300000), apiCached({action:'getVotes',month:mo}, 10000)]);
-    const members = mr.members||[];
-    const votes = vr.votes||{};
+    // Always fresh votes from server — never cache votes
+    const [mr, vr] = await Promise.all([
+      apiCached({action:'getMembers'}, 300000),
+      api({action:'getVotes', month:mo})
+    ]);
+    const members = mr.members || [];
+    const votes = vr.votes || {};
+    const voteable = members.filter(m => isVoteable(m));
 
-    // Previous month winner
-    const pd=new Date(); pd.setDate(0);
-    const pm=pd.getFullYear()+'-'+String(pd.getMonth()+1).padStart(2,'0');
-    const wr = await api({action:'getWinner', month:pm});
-    let wHtml='';
+    // Count votes
+    const counts = {};
+    Object.values(votes).forEach(v => { counts[v] = (counts[v]||0) + 1; });
+    const totalVotes = Object.keys(votes).length;
+
+    // Winner banner (previous month)
+    const pd = new Date(); pd.setDate(0);
+    const pm = pd.getFullYear() + '-' + String(pd.getMonth()+1).padStart(2,'0');
+    const wr = await apiCached({action:'getWinner', month:pm}, 3600000);
+    let wHtml = '';
     if (wr.winnerId) {
-      const w=members.find(m=>m.id===wr.winnerId);
-      if (w) { const pu=driveUrl(w.photo);
-        wHtml=`<div class="winner-banner"><div class="wt">🏆 Infirmier·ère du mois — ${monthLabel(pm)}</div>${photoEl(pu,80,90,9)}<div class="wn">${w.name}</div></div>`; }
+      const w = members.find(m => m.id === wr.winnerId);
+      if (w) {
+        const pu = driveUrl(w.photo);
+        wHtml = `<div class="winner-banner"><div class="wt">🏆 Infirmier·ère du mois — ${monthLabel(pm)}</div>${photoEl(pu,80,90,9)}<div class="wn">${w.name}</div></div>`;
+      }
     }
 
-    if (!canVote(CU)) { content.innerHTML=wHtml+'<div class="alert alert-info">Les secrétaires ne participent pas au vote.</div>'; return; }
-
-    const hv = votes[CU.id];
-    const counts={};
-    Object.values(votes).forEach(v=>{counts[v]=(counts[v]||0)+1;});
-    const voteable = members.filter(m=>isVoteable(m));
-
-    if (hv) {
-      const vw=members.find(m=>m.id===hv);
-      let resHtml='';
-      if (CU.level===1) {
-        resHtml=`<div class="card" style="margin-top:14px;"><div class="card-title">📊 Résultats (Admin)</div>${voteable.sort((a,b)=>(counts[b.id]||0)-(counts[a.id]||0)).map(m=>`<div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--blue-pale);font-size:13px;"><span>${m.name}</span><strong style="color:var(--gold);">${counts[m.id]||0} vote(s)</strong></div>`).join('')}</div>`;
-      }
-      content.innerHTML=wHtml+`<div class="alert alert-success">✅ Voté pour <strong>${vw?vw.name:'?'}</strong> ce mois.</div>`+resHtml;
-      document.getElementById('voteBadge').style.display='none';
+    // Secretaries can't vote
+    if (!canVote(CU)) {
+      el.innerHTML = wHtml + '<div class="alert alert-info">Les secrétaires ne participent pas au vote.</div>';
       return;
     }
 
-    content.innerHTML=wHtml+`<div class="alert alert-warning">⭐ Votez pour un·e collègue soignant·e. Un seul vote !</div><div style="margin-top:14px;">${
-      voteable.map(m=>{const pu=driveUrl(m.photo);return`<div class="vote-card" data-vote-id="${m.id}" onclick="castVote('${m.id}')">
-        ${pu?`<img src="${pu}" class="vote-img" onerror="this.outerHTML='<div class=vote-img style=background:var(--blue-pale);display:flex;align-items:center;justify-content:center;font-size:20px;>👤</div>'"/>`:' <div class="vote-img" style="background:var(--blue-pale);display:flex;align-items:center;justify-content:center;font-size:20px;">👤</div>'}
-        <div><div class="vote-name">${m.name}</div><div class="vote-role-txt">${roleLabel(m.role)}</div></div>
-        <div class="vote-arrow">→</div>
-      </div>`;}).join('')
-    }</div>`;
-  } catch(e) { content.innerHTML='<div class="alert alert-danger">Erreur de chargement.</div>'; }
+    const hv = votes[CU.id];
+
+    // Admin results panel (always visible for admin)
+    let adminResults = '';
+    if (CU.level === 1) {
+      const sorted = [...voteable].sort((a,b) => (counts[b.id]||0) - (counts[a.id]||0));
+      adminResults = `
+        <div class="card" style="margin-top:16px;">
+          <div class="card-title">📊 Résultats en temps réel — ${totalVotes} vote(s) enregistré(s)
+            <button class="btn btn-sm" style="margin-left:auto;background:var(--blue-pale);border:1px solid var(--accent);color:var(--blue-mid);" onclick="renderVote()">🔄 Actualiser</button>
+          </div>
+          ${sorted.map(m => {
+            const c = counts[m.id] || 0;
+            const pct = totalVotes > 0 ? Math.round(c/totalVotes*100) : 0;
+            return `<div style="padding:8px 0;border-bottom:1px solid var(--blue-pale);">
+              <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px;">
+                <span>${m.name}</span>
+                <strong style="color:var(--gold);">${c} vote(s) — ${pct}%</strong>
+              </div>
+              <div style="background:#f0f4f8;border-radius:4px;height:6px;">
+                <div style="background:var(--gold);height:6px;border-radius:4px;width:${pct}%;transition:width 0.5s;"></div>
+              </div>
+            </div>`;
+          }).join('')}
+        </div>`;
+    }
+
+    if (hv) {
+      const vw = members.find(m => m.id === hv);
+      document.getElementById('voteBadge').style.display = 'none';
+      el.innerHTML = wHtml +
+        `<div class="alert alert-success">✅ Vous avez voté pour <strong>${vw ? vw.name : '?'}</strong> ce mois de ${monthLabel(mo)}.</div>` +
+        adminResults;
+      return;
+    }
+
+    // Vote form
+    el.innerHTML = wHtml +
+      `<div class="alert alert-warning">⭐ Votez pour un·e collègue soignant·e. Un seul vote par mois !</div>
+      <div style="margin-top:14px;">
+        ${voteable.map(m => {
+          const pu = driveUrl(m.photo);
+          return `<div class="vote-card" data-vote-id="${m.id}" onclick="castVote('${m.id}')">
+            ${pu ? `<img src="${pu}" class="vote-img" onerror="this.outerHTML='<div class=\'vote-img\' style=\'background:var(--blue-pale);display:flex;align-items:center;justify-content:center;font-size:20px;\'}>👤</div>'"/>` : '<div class="vote-img" style="background:var(--blue-pale);display:flex;align-items:center;justify-content:center;font-size:20px;">👤</div>'}
+            <div><div class="vote-name">${m.name}</div><div class="vote-role-txt">${roleLabel(m.role)}</div></div>
+            <div class="vote-arrow">→</div>
+          </div>`;
+        }).join('')}
+      </div>` + adminResults;
+
+  } catch(e) {
+    document.getElementById('voteContent').innerHTML = '<div class="alert alert-danger">Erreur: ' + e.message + '</div>';
+  }
 }
 
 async function castVote(tid) {
