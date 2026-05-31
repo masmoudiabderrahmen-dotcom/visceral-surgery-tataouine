@@ -231,8 +231,11 @@ body{font-family:'Segoe UI',Tahoma,sans-serif;background:#f0f4f8;color:var(--gra
     <img src="https://lh3.googleusercontent.com/d/1XdOvVO4nOrTEedL5I0Cc1hPjITnrcsId" class="login-logo" alt=""/>
     <div class="login-title">Espace Membres</div>
     <div class="login-sub">Service de Chirurgie Viscérale — Tataouine</div>
-    <div class="f-group"><label>Nom d'utilisateur</label><input type="text" id="lu" autocomplete="username" placeholder="identifiant"/></div>
-    <div class="f-group"><label>Mot de passe</label><input type="password" id="lp" autocomplete="current-password" placeholder="••••••••"/></div>
+    <div class="f-group"><label>Nom d'utilisateur</label><input type="text" id="lu" autocomplete="username" placeholder="identifiant" autocorrect="off" autocapitalize="none" autocomplete="off" spellcheck="false"/></div>
+    <div class="f-group"><label>Mot de passe</label><div style="position:relative;">
+      <input type="password" id="lp" autocomplete="off" placeholder="••••••••" autocorrect="off" autocapitalize="none" spellcheck="false" style="padding-right:44px;"/>
+      <button type="button" onclick="togglePwd()" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:18px;padding:0;line-height:1;" id="eyeBtn">👁️</button>
+    </div></div>
     <button class="btn-login" onclick="doLogin()" id="loginBtn">Se connecter</button>
     <div class="login-loading" id="loginLoading"><span class="spinner"></span>Connexion...</div>
     <div class="login-error" id="loginError">Identifiant ou mot de passe incorrect.</div>
@@ -404,11 +407,24 @@ function loadSession() {
 }
 
 // ── AUTH ──
+
+function togglePwd() {
+  const inp = document.getElementById('lp');
+  const btn = document.getElementById('eyeBtn');
+  if (inp.type === 'password') {
+    inp.type = 'text';
+    btn.textContent = '🙈';
+  } else {
+    inp.type = 'password';
+    btn.textContent = '👁️';
+  }
+}
+
 document.getElementById('lp').addEventListener('keypress', e => { if(e.key==='Enter') doLogin(); });
 
 async function doLogin() {
-  const u = document.getElementById('lu').value.trim();
-  const p = document.getElementById('lp').value;
+  const u = document.getElementById('lu').value.trim().toLowerCase();
+  const p = document.getElementById('lp').value.trim();
   if (!u||!p) return;
   document.getElementById('loginBtn').style.display='none';
   document.getElementById('loginLoading').style.display='block';
