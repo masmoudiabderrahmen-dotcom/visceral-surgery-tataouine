@@ -315,7 +315,7 @@ section:last-child { border-bottom: none; }
 }
 .surgeons-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 20px;
   margin-bottom: 50px;
 }
@@ -333,16 +333,16 @@ section:last-child { border-bottom: none; }
   border-color: var(--blue-light);
 }
 .surgeon-photo {
-  width: 80px; height: 90px;
-  border-radius: 8px;
-  margin: 0 auto 14px;
+  width: 160px; height: 180px;
+  border-radius: 12px;
+  margin: 0 auto 16px;
   background: linear-gradient(135deg, var(--blue-pale), var(--accent));
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid rgba(74,159,212,0.2);
+  border: 2px solid rgba(74,159,212,0.3);
 }
-.surgeon-photo .photo-placeholder { font-size: 24px; }
+.surgeon-photo .photo-placeholder { font-size: 40px; }
 .surgeon-name {
   font-size: 14px;
   font-weight: 500;
@@ -624,7 +624,7 @@ footer strong { color: rgba(255,255,255,0.9); }
   <div style="display:flex; justify-content:center; margin-top:36px; position:relative; z-index:1;">
     <img src="https://lh3.googleusercontent.com/d/1XdOvVO4nOrTEedL5I0Cc1hPjITnrcsId"
          alt="Sceau du Service de Chirurgie Viscérale et Digestive — Hôpital de Tataouine"
-         style="width:220px; height:220px; object-fit:contain; filter:brightness(0) invert(1); opacity:0.92; drop-shadow: 0 0 30px rgba(255,255,255,0.1);"/>
+         style="width:420px; height:420px; object-fit:contain; filter:brightness(0) invert(1); opacity:0.92;"/>
   </div>
 </header>
 
@@ -837,38 +837,261 @@ footer strong { color: rgba(255,255,255,0.9); }
     <span class="lang-ar-inline">الفريق التمريضي</span>
     <span class="lang-en-inline">Nursing Team</span>
   </h3>
-  <div class="nursing-grid">
-    <div class="nurse-card">
-      <div class="nurse-avatar">AB</div>
-      <div class="nurse-name">Aicha Boudellaa</div>
-      <div class="nurse-role lang-fr active">Surveillante du Service</div>
-      <div class="nurse-role lang-ar">مراقبة القسم</div>
-      <div class="nurse-role lang-en">Ward Supervisor</div>
+
+  <!-- Surveillante -->
+  <div style="display:flex; gap:30px; align-items:center; background:var(--blue-ultra); border:1px solid var(--accent); border-radius:14px; padding:24px 30px; margin-bottom:30px;">
+    <div style="width:100px; height:110px; border-radius:10px; overflow:hidden; flex-shrink:0; border:2px solid rgba(74,159,212,0.3); background:#dce8f4;">
+      <img src="https://lh3.googleusercontent.com/d/1YLEZevSDBz566Q7l8PVTzyQPtQ6sVzT4" alt="Aicha Boudellaa" style="width:100%; height:100%; object-fit:cover; object-position:center top;"/>
     </div>
-    <div class="nurse-card" style="background: #eef3f7; border: 2px dashed #c8dff0;">
-      <div class="nurse-avatar" style="background: #dde8f0; color: #7a9ab5;">+</div>
-      <div class="nurse-name" style="color: #7a9ab5;">
-        <span class="lang-fr-inline active">Équipe infirmière</span>
-        <span class="lang-ar-inline">الفريق التمريضي</span>
-        <span class="lang-en-inline">Nursing staff</span>
+    <div>
+      <div style="font-size:11px; letter-spacing:0.15em; text-transform:uppercase; color:var(--blue-light); margin-bottom:4px;">
+        <span class="lang-fr-inline active">Surveillante du Service</span>
+        <span class="lang-ar-inline">مراقبة القسم</span>
+        <span class="lang-en-inline">Ward Supervisor</span>
       </div>
-      <div class="nurse-role" style="color: #aabbc8;">
-        <span class="lang-fr-inline active">Photos à compléter</span>
-        <span class="lang-ar-inline">الصور قيد الإضافة</span>
-        <span class="lang-en-inline">Photos coming soon</span>
+      <div style="font-family:'Cormorant Garamond',serif; font-size:22px; color:var(--blue-deep); font-weight:600;">Aicha Boudellaa</div>
+    </div>
+  </div>
+
+  <!-- Infirmiers -->
+  <h4 style="font-size:15px; color:var(--gray-mid); margin-bottom:16px; font-weight:400;">
+    <span class="lang-fr-inline active">Équipe infirmière</span>
+    <span class="lang-ar-inline">الفريق التمريضي</span>
+    <span class="lang-en-inline">Nursing Staff</span>
+  </h4>
+  <div class="nursing-grid" style="margin-bottom:30px;">
+    <div class="nurse-card" style="background:#eef3f7; border:2px dashed #c8dff0;">
+      <div class="nurse-avatar" style="background:#dde8f0; color:#7a9ab5; font-size:22px;">👤</div>
+      <div class="nurse-name" style="color:#7a9ab5;">
+        <span class="lang-fr-inline active">Infirmier·ère 1</span>
+        <span class="lang-ar-inline">ممرض/ة 1</span>
+        <span class="lang-en-inline">Nurse 1</span>
+      </div>
+      <div class="nurse-role" style="color:#aabbc8;">
+        <span class="lang-fr-inline active">Photo à venir</span>
+        <span class="lang-ar-inline">الصورة قيد الإضافة</span>
+        <span class="lang-en-inline">Photo coming soon</span>
       </div>
     </div>
-    <div class="nurse-card" style="background: #eef3f7; border: 2px dashed #c8dff0;">
-      <div class="nurse-avatar" style="background: #dde8f0; color: #7a9ab5;">✉</div>
-      <div class="nurse-name" style="color: #7a9ab5;">
-        <span class="lang-fr-inline active">Secrétariat</span>
-        <span class="lang-ar-inline">السكرتارية</span>
-        <span class="lang-en-inline">Secretariat</span>
+    <div class="nurse-card" style="background:#eef3f7; border:2px dashed #c8dff0;">
+      <div class="nurse-avatar" style="background:#dde8f0; color:#7a9ab5; font-size:22px;">👤</div>
+      <div class="nurse-name" style="color:#7a9ab5;">
+        <span class="lang-fr-inline active">Infirmier·ère 2</span>
+        <span class="lang-ar-inline">ممرض/ة 2</span>
+        <span class="lang-en-inline">Nurse 2</span>
       </div>
-      <div class="nurse-role" style="color: #aabbc8;">
-        <span class="lang-fr-inline active">2 secrétaires — à compléter</span>
-        <span class="lang-ar-inline">كاتبتان — قيد الإضافة</span>
-        <span class="lang-en-inline">2 secretaries — coming soon</span>
+      <div class="nurse-role" style="color:#aabbc8;">
+        <span class="lang-fr-inline active">Photo à venir</span>
+        <span class="lang-ar-inline">الصورة قيد الإضافة</span>
+        <span class="lang-en-inline">Photo coming soon</span>
+      </div>
+    </div>
+    <div class="nurse-card" style="background:#eef3f7; border:2px dashed #c8dff0;">
+      <div class="nurse-avatar" style="background:#dde8f0; color:#7a9ab5; font-size:22px;">👤</div>
+      <div class="nurse-name" style="color:#7a9ab5;">
+        <span class="lang-fr-inline active">Infirmier·ère 3</span>
+        <span class="lang-ar-inline">ممرض/ة 3</span>
+        <span class="lang-en-inline">Nurse 3</span>
+      </div>
+      <div class="nurse-role" style="color:#aabbc8;">
+        <span class="lang-fr-inline active">Photo à venir</span>
+        <span class="lang-ar-inline">الصورة قيد الإضافة</span>
+        <span class="lang-en-inline">Photo coming soon</span>
+      </div>
+    </div>
+    <div class="nurse-card" style="background:#eef3f7; border:2px dashed #c8dff0;">
+      <div class="nurse-avatar" style="background:#dde8f0; color:#7a9ab5; font-size:22px;">👤</div>
+      <div class="nurse-name" style="color:#7a9ab5;">
+        <span class="lang-fr-inline active">Infirmier·ère 4</span>
+        <span class="lang-ar-inline">ممرض/ة 4</span>
+        <span class="lang-en-inline">Nurse 4</span>
+      </div>
+      <div class="nurse-role" style="color:#aabbc8;">
+        <span class="lang-fr-inline active">Photo à venir</span>
+        <span class="lang-ar-inline">الصورة قيد الإضافة</span>
+        <span class="lang-en-inline">Photo coming soon</span>
+      </div>
+    </div>
+    <div class="nurse-card" style="background:#eef3f7; border:2px dashed #c8dff0;">
+      <div class="nurse-avatar" style="background:#dde8f0; color:#7a9ab5; font-size:22px;">👤</div>
+      <div class="nurse-name" style="color:#7a9ab5;">
+        <span class="lang-fr-inline active">Infirmier·ère 5</span>
+        <span class="lang-ar-inline">ممرض/ة 5</span>
+        <span class="lang-en-inline">Nurse 5</span>
+      </div>
+      <div class="nurse-role" style="color:#aabbc8;">
+        <span class="lang-fr-inline active">Photo à venir</span>
+        <span class="lang-ar-inline">الصورة قيد الإضافة</span>
+        <span class="lang-en-inline">Photo coming soon</span>
+      </div>
+    </div>
+    <div class="nurse-card" style="background:#eef3f7; border:2px dashed #c8dff0;">
+      <div class="nurse-avatar" style="background:#dde8f0; color:#7a9ab5; font-size:22px;">👤</div>
+      <div class="nurse-name" style="color:#7a9ab5;">
+        <span class="lang-fr-inline active">Infirmier·ère 6</span>
+        <span class="lang-ar-inline">ممرض/ة 6</span>
+        <span class="lang-en-inline">Nurse 6</span>
+      </div>
+      <div class="nurse-role" style="color:#aabbc8;">
+        <span class="lang-fr-inline active">Photo à venir</span>
+        <span class="lang-ar-inline">الصورة قيد الإضافة</span>
+        <span class="lang-en-inline">Photo coming soon</span>
+      </div>
+    </div>
+    <div class="nurse-card" style="background:#eef3f7; border:2px dashed #c8dff0;">
+      <div class="nurse-avatar" style="background:#dde8f0; color:#7a9ab5; font-size:22px;">👤</div>
+      <div class="nurse-name" style="color:#7a9ab5;">
+        <span class="lang-fr-inline active">Infirmier·ère 7</span>
+        <span class="lang-ar-inline">ممرض/ة 7</span>
+        <span class="lang-en-inline">Nurse 7</span>
+      </div>
+      <div class="nurse-role" style="color:#aabbc8;">
+        <span class="lang-fr-inline active">Photo à venir</span>
+        <span class="lang-ar-inline">الصورة قيد الإضافة</span>
+        <span class="lang-en-inline">Photo coming soon</span>
+      </div>
+    </div>
+    <div class="nurse-card" style="background:#eef3f7; border:2px dashed #c8dff0;">
+      <div class="nurse-avatar" style="background:#dde8f0; color:#7a9ab5; font-size:22px;">👤</div>
+      <div class="nurse-name" style="color:#7a9ab5;">
+        <span class="lang-fr-inline active">Infirmier·ère 8</span>
+        <span class="lang-ar-inline">ممرض/ة 8</span>
+        <span class="lang-en-inline">Nurse 8</span>
+      </div>
+      <div class="nurse-role" style="color:#aabbc8;">
+        <span class="lang-fr-inline active">Photo à venir</span>
+        <span class="lang-ar-inline">الصورة قيد الإضافة</span>
+        <span class="lang-en-inline">Photo coming soon</span>
+      </div>
+    </div>
+    <div class="nurse-card" style="background:#eef3f7; border:2px dashed #c8dff0;">
+      <div class="nurse-avatar" style="background:#dde8f0; color:#7a9ab5; font-size:22px;">👤</div>
+      <div class="nurse-name" style="color:#7a9ab5;">
+        <span class="lang-fr-inline active">Infirmier·ère 9</span>
+        <span class="lang-ar-inline">ممرض/ة 9</span>
+        <span class="lang-en-inline">Nurse 9</span>
+      </div>
+      <div class="nurse-role" style="color:#aabbc8;">
+        <span class="lang-fr-inline active">Photo à venir</span>
+        <span class="lang-ar-inline">الصورة قيد الإضافة</span>
+        <span class="lang-en-inline">Photo coming soon</span>
+      </div>
+    </div>
+    <div class="nurse-card" style="background:#eef3f7; border:2px dashed #c8dff0;">
+      <div class="nurse-avatar" style="background:#dde8f0; color:#7a9ab5; font-size:22px;">👤</div>
+      <div class="nurse-name" style="color:#7a9ab5;">
+        <span class="lang-fr-inline active">Infirmier·ère 10</span>
+        <span class="lang-ar-inline">ممرض/ة 10</span>
+        <span class="lang-en-inline">Nurse 10</span>
+      </div>
+      <div class="nurse-role" style="color:#aabbc8;">
+        <span class="lang-fr-inline active">Photo à venir</span>
+        <span class="lang-ar-inline">الصورة قيد الإضافة</span>
+        <span class="lang-en-inline">Photo coming soon</span>
+      </div>
+    </div>
+    <div class="nurse-card" style="background:#eef3f7; border:2px dashed #c8dff0;">
+      <div class="nurse-avatar" style="background:#dde8f0; color:#7a9ab5; font-size:22px;">👤</div>
+      <div class="nurse-name" style="color:#7a9ab5;">
+        <span class="lang-fr-inline active">Infirmier·ère 11</span>
+        <span class="lang-ar-inline">ممرض/ة 11</span>
+        <span class="lang-en-inline">Nurse 11</span>
+      </div>
+      <div class="nurse-role" style="color:#aabbc8;">
+        <span class="lang-fr-inline active">Photo à venir</span>
+        <span class="lang-ar-inline">الصورة قيد الإضافة</span>
+        <span class="lang-en-inline">Photo coming soon</span>
+      </div>
+    </div>
+    <div class="nurse-card" style="background:#eef3f7; border:2px dashed #c8dff0;">
+      <div class="nurse-avatar" style="background:#dde8f0; color:#7a9ab5; font-size:22px;">👤</div>
+      <div class="nurse-name" style="color:#7a9ab5;">
+        <span class="lang-fr-inline active">Infirmier·ère 12</span>
+        <span class="lang-ar-inline">ممرض/ة 12</span>
+        <span class="lang-en-inline">Nurse 12</span>
+      </div>
+      <div class="nurse-role" style="color:#aabbc8;">
+        <span class="lang-fr-inline active">Photo à venir</span>
+        <span class="lang-ar-inline">الصورة قيد الإضافة</span>
+        <span class="lang-en-inline">Photo coming soon</span>
+      </div>
+    </div>
+    <div class="nurse-card" style="background:#eef3f7; border:2px dashed #c8dff0;">
+      <div class="nurse-avatar" style="background:#dde8f0; color:#7a9ab5; font-size:22px;">👤</div>
+      <div class="nurse-name" style="color:#7a9ab5;">
+        <span class="lang-fr-inline active">Infirmier·ère 13</span>
+        <span class="lang-ar-inline">ممرض/ة 13</span>
+        <span class="lang-en-inline">Nurse 13</span>
+      </div>
+      <div class="nurse-role" style="color:#aabbc8;">
+        <span class="lang-fr-inline active">Photo à venir</span>
+        <span class="lang-ar-inline">الصورة قيد الإضافة</span>
+        <span class="lang-en-inline">Photo coming soon</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Secrétaires -->
+  <h4 style="font-size:15px; color:var(--gray-mid); margin-bottom:16px; font-weight:400;">
+    <span class="lang-fr-inline active">Secrétariat médical</span>
+    <span class="lang-ar-inline">السكرتارية الطبية</span>
+    <span class="lang-en-inline">Medical Secretariat</span>
+  </h4>
+  <div class="nursing-grid" style="margin-bottom:40px;">
+    <div class="nurse-card" style="background:#f0f4ee; border:2px dashed #b8d4b0;">
+      <div class="nurse-avatar" style="background:#daebd6; color:#5a8a52; font-size:22px;">✉</div>
+      <div class="nurse-name" style="color:#5a8a52;">
+        <span class="lang-fr-inline active">Secrétaire 1</span>
+        <span class="lang-ar-inline">سكرتيرة 1</span>
+        <span class="lang-en-inline">Secretary 1</span>
+      </div>
+      <div class="nurse-role" style="color:#8ab882;">
+        <span class="lang-fr-inline active">Photo à venir</span>
+        <span class="lang-ar-inline">الصورة قيد الإضافة</span>
+        <span class="lang-en-inline">Photo coming soon</span>
+      </div>
+    </div>
+    <div class="nurse-card" style="background:#f0f4ee; border:2px dashed #b8d4b0;">
+      <div class="nurse-avatar" style="background:#daebd6; color:#5a8a52; font-size:22px;">✉</div>
+      <div class="nurse-name" style="color:#5a8a52;">
+        <span class="lang-fr-inline active">Secrétaire 2</span>
+        <span class="lang-ar-inline">سكرتيرة 2</span>
+        <span class="lang-en-inline">Secretary 2</span>
+      </div>
+      <div class="nurse-role" style="color:#8ab882;">
+        <span class="lang-fr-inline active">Photo à venir</span>
+        <span class="lang-ar-inline">الصورة قيد الإضافة</span>
+        <span class="lang-en-inline">Photo coming soon</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Infirmier du mois -->
+  <div style="background:linear-gradient(135deg, var(--blue-deep) 0%, var(--blue-mid) 100%); border-radius:16px; padding:36px; display:flex; gap:36px; align-items:center;">
+    <div style="flex-shrink:0; width:160px; height:180px; border-radius:12px; background:rgba(255,255,255,0.12); border:2px solid rgba(255,255,255,0.25); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px;">
+      <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="1"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      <span style="color:rgba(255,255,255,0.4); font-size:12px;">
+        <span class="lang-fr-inline active">Photo à venir</span>
+        <span class="lang-ar-inline">الصورة قادمة</span>
+        <span class="lang-en-inline">Photo coming</span>
+      </span>
+    </div>
+    <div>
+      <div style="display:inline-flex; align-items:center; gap:8px; background:rgba(255,215,0,0.2); border:1px solid rgba(255,215,0,0.4); color:#ffd700; padding:5px 14px; border-radius:20px; font-size:12px; margin-bottom:12px;">
+        ⭐
+        <span class="lang-fr-inline active">Infirmier·ère du mois</span>
+        <span class="lang-ar-inline">ممرض/ة الشهر</span>
+        <span class="lang-en-inline">Nurse of the Month</span>
+      </div>
+      <div style="font-family:'Cormorant Garamond',serif; font-size:28px; color:#fff; font-weight:600; margin-bottom:8px;">
+        <span class="lang-fr-inline active">À désigner</span>
+        <span class="lang-ar-inline">لم يُحدد بعد</span>
+        <span class="lang-en-inline">To be announced</span>
+      </div>
+      <div style="font-size:14px; color:rgba(255,255,255,0.65); line-height:1.6; max-width:400px;">
+        <span class="lang-fr-inline active">Chaque mois, un membre de l'équipe infirmière est mis à l'honneur pour son engagement et la qualité des soins prodigués aux patients.</span>
+        <span class="lang-ar-inline">كل شهر، يُكرَّم أحد أعضاء الفريق التمريضي تقديراً لتفانيه وجودة الرعاية المقدمة للمرضى.</span>
+        <span class="lang-en-inline">Each month, a nursing team member is honored for their dedication and quality of patient care.</span>
       </div>
     </div>
   </div>
@@ -942,6 +1165,25 @@ footer strong { color: rgba(255,255,255,0.9); }
       <div class="spec-desc lang-ar">أمراض الجنب والرئة والمنصف بإشراف د. أيمن بن عياد</div>
       <div class="spec-desc lang-en">Pleural, pulmonary and mediastinal pathologies by Dr. Aymen Ben Ayed</div>
     </div>
+
+    <div class="spec-card">
+      <div class="spec-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 0v10m0 0 7-4"/><circle cx="12" cy="12" r="3"/></svg></div>
+      <div class="spec-name lang-fr active">Chirurgie des Cancers Digestifs</div>
+      <div class="spec-name lang-ar">جراحة سرطانات الجهاز الهضمي</div>
+      <div class="spec-name lang-en">Digestive Cancer Surgery</div>
+      <div class="spec-desc lang-fr active">Résection curative des cancers colorectaux, gastriques, hépatiques et pancréatiques avec approche oncologique multidisciplinaire</div>
+      <div class="spec-desc lang-ar">استئصال سرطانات القولون والمعدة والكبد والبنكرياس بمقاربة علاجية متعددة التخصصات</div>
+      <div class="spec-desc lang-en">Curative resection of colorectal, gastric, hepatic and pancreatic cancers with multidisciplinary oncological approach</div>
+    </div>
+    <div class="spec-card">
+      <div class="spec-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2v20M2 12h20"/><circle cx="12" cy="12" r="4"/><path d="M12 8V4M12 20v-4M8 12H4M20 12h-4"/></svg></div>
+      <div class="spec-name lang-fr active">Mise en place de Portacath</div>
+      <div class="spec-name lang-ar">تركيب منفذ كيمياء مركزي (بورتاكاث)</div>
+      <div class="spec-name lang-en">Portacath Implantation</div>
+      <div class="spec-desc lang-fr active">Pose de chambre implantable pour chimiothérapie — accès veineux central de longue durée pour les patients en traitement oncologique</div>
+      <div class="spec-desc lang-ar">تركيب غرفة وريدية مزروعة للعلاج الكيميائي — وصول وريدي مركزي طويل الأمد للمرضى الخاضعين للعلاج الورمي</div>
+      <div class="spec-desc lang-en">Implantable port placement for chemotherapy — long-term central venous access for oncology patients</div>
+    </div>
   </div>
 </section>
 
@@ -965,7 +1207,7 @@ footer strong { color: rgba(255,255,255,0.9); }
         <span class="lang-ar-inline">الثلاثاء</span>
         <span class="lang-en-inline">Tuesday</span>
       </div>
-      <div class="consult-time">08:00 →</div>
+      <div class="consult-time">08:00 – 13:00</div>
       <div class="consult-info lang-fr active">Consultations de chirurgie viscérale et digestive. Présentation sur place ou sur rendez-vous.</div>
       <div class="consult-info lang-ar">استشارات جراحة الجهاز الهضمي والحشوي. حضور مباشر أو بموعد مسبق.</div>
       <div class="consult-info lang-en">Visceral and digestive surgery consultations. Walk-in or by appointment.</div>
@@ -976,7 +1218,7 @@ footer strong { color: rgba(255,255,255,0.9); }
         <span class="lang-ar-inline">الخميس</span>
         <span class="lang-en-inline">Thursday</span>
       </div>
-      <div class="consult-time">08:00 →</div>
+      <div class="consult-time">08:00 – 13:00</div>
       <div class="consult-info lang-fr active">Consultations de chirurgie viscérale et digestive. Présentation sur place ou sur rendez-vous.</div>
       <div class="consult-info lang-ar">استشارات جراحة الجهاز الهضمي والحشوي. حضور مباشر أو بموعد مسبق.</div>
       <div class="consult-info lang-en">Visceral and digestive surgery consultations. Walk-in or by appointment.</div>
@@ -1304,9 +1546,9 @@ footer strong { color: rgba(255,255,255,0.9); }
           <div class="contact-label lang-fr active">Consultations externes</div>
           <div class="contact-label lang-ar">الاستشارات الخارجية</div>
           <div class="contact-label lang-en">Outpatient clinics</div>
-          <div class="contact-value lang-fr active">Mardi & Jeudi — dès 8h00</div>
-          <div class="contact-value lang-ar">الثلاثاء والخميس — ابتداءً من 8:00</div>
-          <div class="contact-value lang-en">Tuesday & Thursday — from 8:00 AM</div>
+          <div class="contact-value lang-fr active">Mardi & Jeudi — 8h00 à 13h00</div>
+          <div class="contact-value lang-ar">الثلاثاء والخميس — من 8:00 إلى 13:00</div>
+          <div class="contact-value lang-en">Tuesday & Thursday — 8:00 AM to 1:00 PM</div>
         </div>
       </div>
     </div>
