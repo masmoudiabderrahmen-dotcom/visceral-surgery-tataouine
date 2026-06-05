@@ -347,6 +347,52 @@ function api(params) {
   });
 }
 
+// ── POST API for file upload ──
+async function apiPost(params) {
+  return new Promise((resolve, reject) => {
+    const cb = 'cb_' + Date.now() + '_' + Math.random().toString(36).slice(2);
+    const t = setTimeout(() => { delete window[cb]; reject(new Error('Timeout')); }, 30000);
+    window[cb] = d => { clearTimeout(t); delete window[cb]; document.getElementById(cb)?.remove(); resolve(d); };
+
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = API + '?callback=' + cb;
+    form.target = cb + '_frame';
+    form.style.display = 'none';
+
+    // Add all params as hidden fields
+    for (const [k, v] of Object.entries(params)) {
+      if (k === 'callback') continue;
+      const input = document.createElement('input');
+      input.type = 'hidden';
+      input.name = k;
+      input.value = v;
+      form.appendChild(input);
+    }
+
+    // Hidden iframe to receive response
+    const iframe = document.createElement('iframe');
+    iframe.name = cb + '_frame';
+    iframe.id = cb;
+    iframe.style.display = 'none';
+    iframe.onload = () => {
+      try {
+        const text = iframe.contentDocument?.body?.innerText || '';
+        const match = text.match(/cb_[^(]+\((.+)\)/s);
+        if (match) resolve(JSON.parse(match[1]));
+        else resolve({error: 'No response'});
+      } catch(e) { resolve({error: e.message}); }
+      clearTimeout(t);
+      delete window[cb];
+      setTimeout(() => { form.remove(); iframe.remove(); }, 1000);
+    };
+
+    document.body.appendChild(iframe);
+    document.body.appendChild(form);
+    form.submit();
+  });
+}
+
 // ── CACHE ──
 const C = {};
 function cGet(k, ttl) { const e=C[k]; return (e && Date.now()-e.ts < ttl) ? e.d : null; }
@@ -381,7 +427,24 @@ function ph(url,w,h,r){
   if(u)return`<img src="${u}" style="${s}" onerror="this.style.display='none';this.nextSibling.style.display='flex'"/><div style="${s}background:var(--bp);display:none;align-items:center;justify-content:center;font-size:${Math.round(h/3)}px;">👤</div>`;
   return`<div style="${s}background:var(--bp);display:flex;align-items:center;justify-content:center;font-size:${Math.round(h/3)}px;">👤</div>`;
 }
-function imgToBase64(file){return new Promise(res=>{const r=new FileReader();r.onload=e=>res(e.target.result);r.readAsDataURL(file);});}
+function imgToBase64(file, maxW=800, quality=0.7) {
+  return new Promise(res => {
+    const reader = new FileReader();
+    reader.onload = e => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        let w = img.width, h = img.height;
+        if (w > maxW) { h = Math.round(h * maxW / w); w = maxW; }
+        canvas.width = w; canvas.height = h;
+        canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+        res(canvas.toDataURL('image/jpeg', quality));
+      };
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  });
+}
 
 // ── SESSION ──
 function sav(){if(CU)localStorage.setItem('cs',JSON.stringify({...CU,ts:Date.now()}));}
@@ -662,10 +725,14 @@ async function createMember(){
     // Upload photo if selected
     if(_photoFile){
       f.innerHTML='<div class="al ai"><span class="spin"></span> Upload photo...</div>';
-      const b64=await imgToBase64(_photoFile);
-      const pr=await api({action:'uploadPhoto',base64:b64,filename:_photoFile.name,memberId:id});
-      if(pr.success)photoUrl=pr.url;
-      else f.innerHTML='<div class="al aw">Photo non uploadée: '+pr.error+'. Compte créé sans photo.</div>';
+      try {
+        const b64=await imgToBase64(_photoFile, 600, 0.7);
+        const pr=await apiPost({action:'uploadPhoto',base64:b64,filename:_photoFile.name,memberId:id});
+        if(pr.success)photoUrl=pr.url;
+        else f.innerHTML='<div class="al aw">Photo non uploadée: '+pr.error+'. Compte créé sans photo.</div>';
+      } catch(e) {
+        f.innerHTML='<div class="al aw">Photo non uploadée. Compte créé sans photo.</div>';
+      }
     }
     const r=await api({action:'addMember',member:JSON.stringify({id,username:u,password:p,name:n,role,photo:photoUrl,level:4})});
     if(r.success){
@@ -688,8 +755,8 @@ async function editMemberPhoto(id, name){
     input.type='file';input.accept='image/*';
     input.onchange=async()=>{
       const file=input.files[0];if(!file)return;
-      const b64=await imgToBase64(file);
-      const r=await api({action:'uploadPhoto',base64:b64,filename:file.name,memberId:id});
+      const b64=await imgToBase64(file, 600, 0.7);
+      const r=await apiPost({action:'uploadPhoto',base64:b64,filename:file.name,memberId:id});
       if(r.success){
         await api({action:'updateMember',id,field:'photo',value:r.url});
         cDel(JSON.stringify({action:'getMembers'}));
@@ -737,10 +804,14 @@ async function publishActu(){
     let link='';
     if(_actuPhotoFile){
       f.innerHTML='<div class="al ai"><span class="spin"></span> Upload en cours...</div>';
-      const b64=await imgToBase64(_actuPhotoFile);
-      const pr=await api({action:'uploadPhoto',base64:b64,filename:_actuPhotoFile.name,memberId:'actu_'+Date.now()});
-      if(pr.success)link=pr.url;
-      else{f.innerHTML='<div class="al ae">Erreur upload: '+pr.error+'</div>';btn.disabled=false;btn.textContent='📸 Publier';return;}
+      try {
+        const b64=await imgToBase64(_actuPhotoFile, 1000, 0.8);
+        const pr=await apiPost({action:'uploadPhoto',base64:b64,filename:_actuPhotoFile.name,memberId:'actu_'+Date.now()});
+        if(pr.success)link=pr.url;
+        else{f.innerHTML='<div class="al ae">Erreur upload: '+pr.error+'</div>';btn.disabled=false;btn.textContent='📸 Publier';return;}
+      } catch(e) {
+        f.innerHTML='<div class="al ae">Erreur upload. Utilisez un lien Drive.</div>';btn.disabled=false;btn.textContent='📸 Publier';return;
+      }
     }else{link=driveLink;}
     const r=await api({action:'addActualite',actu:JSON.stringify({id:Date.now(),link,caption,author:CU.name,date:new Date().toLocaleDateString('fr-FR',{day:'2-digit',month:'long',year:'numeric'})})});
     if(r.success){
