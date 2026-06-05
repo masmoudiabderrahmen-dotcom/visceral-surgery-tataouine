@@ -283,13 +283,9 @@ body{font-family:'Segoe UI',Tahoma,sans-serif;background:#f0f4f8;color:var(--gd)
             <div class="fg"><label>Mot de passe</label><input id="NP" type="text" placeholder="Mot de passe" autocorrect="off" autocapitalize="none"/></div>
             <div class="fg"><label>Rôle</label><select id="NR"><option value="infirmier">Infirmier·ère</option><option value="aide">Aide soignant·e</option><option value="secretaire">Secrétaire</option></select></div>
           </div>
-          <!-- Photo upload -->
-          <div class="fg"><label>Photo de profil</label>
-            <div class="pu" id="PU" onclick="document.getElementById('PUF').click()">
-              <input type="file" id="PUF" accept="image/*" onchange="previewPhoto(this)"/>
-              <img id="PPV" style="display:none;width:70px;height:80px;border-radius:8px;object-fit:cover;margin:0 auto 8px;"/>
-              <div id="PUT">📷 Cliquer pour choisir une photo<br/><small style="color:var(--gm);">ou laisser vide</small></div>
-            </div>
+          <div class="fg"><label>Lien photo Google Drive</label>
+            <input id="NF" type="text" placeholder="https://drive.google.com/file/d/XXXXX/view" autocorrect="off" autocapitalize="none"/>
+            <small style="color:var(--gm);font-size:11px;margin-top:4px;display:block;">📁 Drive → clic droit sur la photo → "Obtenir le lien" → "Toute personne"</small>
           </div>
           <button class="btn bg" onclick="createMember()" id="CB">✅ Créer</button>
           <div id="CF" style="margin-top:10px;"></div>
@@ -301,15 +297,10 @@ body{font-family:'Segoe UI',Tahoma,sans-serif;background:#f0f4f8;color:var(--gd)
         <div class="pt">📤 Publier une actualité</div>
         <div class="ps">Partager une photo avec l'équipe</div>
         <div class="card">
-          <!-- Photo upload for actu -->
-          <div class="fg"><label>Photo (upload direct)</label>
-            <div class="pu" id="APU" onclick="document.getElementById('APF').click()">
-              <input type="file" id="APF" accept="image/*" onchange="previewActuPhoto(this)"/>
-              <img id="APV" style="display:none;width:100%;max-height:200px;border-radius:8px;object-fit:contain;margin-bottom:8px;"/>
-              <div id="APT">📷 Cliquer pour choisir une photo</div>
-            </div>
+          <div class="al ai">📌 <strong>Comment partager une photo :</strong> Ouvrez Google Drive → clic droit sur la photo → "Obtenir le lien" → "Toute personne avec le lien" → copiez le lien ci-dessous.</div>
+          <div class="fg" style="margin-top:12px;"><label>Lien Google Drive de la photo</label>
+            <input id="AL2" type="text" placeholder="https://drive.google.com/file/d/XXXXX/view" autocorrect="off" autocapitalize="none"/>
           </div>
-          <div class="fg"><label>Ou lien Google Drive (alternatif)</label><input id="AL2" type="text" placeholder="https://drive.google.com/file/d/XXXXX/view" autocorrect="off" autocapitalize="none"/></div>
           <div class="fg"><label>Légende</label><textarea id="AC" rows="3" placeholder="Description de la photo..."></textarea></div>
           <button class="btn bp" onclick="publishActu()" id="AB2">📸 Publier</button>
           <div id="AF" style="margin-top:10px;"></div>
@@ -329,8 +320,6 @@ body{font-family:'Segoe UI',Tahoma,sans-serif;background:#f0f4f8;color:var(--gd)
 <script>
 const API = 'https://script.google.com/macros/s/AKfycbzV4seoeR3ujPMLbccueatTMwwHvNx3Rir5_l5mJv72L7e2EZ0skwIxbCdXkgNnZHPr/exec';
 let CU = null;
-let _photoFile = null; // for member photo upload
-let _actuPhotoFile = null; // for actu photo upload
 
 // ── JSONP API ──
 function api(params) {
@@ -347,41 +336,7 @@ function api(params) {
   });
 }
 
-// ── PHOTO UPLOAD via Imgur (free, no account needed) ──
-async function apiPost(params) {
-  if (params.action === 'uploadPhoto' && params.base64) {
-    return await uploadToImgur(params.base64);
-  }
-  return await api(params);
-}
 
-async function uploadToImgur(base64) {
-  try {
-    // Remove data URL prefix
-    const imageData = base64.includes(',') ? base64.split(',')[1] : base64;
-    
-    const formData = new FormData();
-    formData.append('image', imageData);
-    formData.append('type', 'base64');
-
-    const response = await fetch('https://api.imgur.com/3/image', {
-      method: 'POST',
-      headers: {
-        'Authorization': 'Client-ID 546c25a59c58ad7'
-      },
-      body: formData
-    });
-
-    const data = await response.json();
-    if (data.success) {
-      return { success: true, url: data.data.link };
-    } else {
-      return { error: data.data?.error || 'Erreur Imgur' };
-    }
-  } catch(e) {
-    return { error: 'Erreur réseau: ' + e.message };
-  }
-}
 
 // ── CACHE ──
 const C = {};
@@ -417,24 +372,7 @@ function ph(url,w,h,r){
   if(u)return`<img src="${u}" style="${s}" onerror="this.style.display='none';this.nextSibling.style.display='flex'"/><div style="${s}background:var(--bp);display:none;align-items:center;justify-content:center;font-size:${Math.round(h/3)}px;">👤</div>`;
   return`<div style="${s}background:var(--bp);display:flex;align-items:center;justify-content:center;font-size:${Math.round(h/3)}px;">👤</div>`;
 }
-function imgToBase64(file, maxW=800, quality=0.7) {
-  return new Promise(res => {
-    const reader = new FileReader();
-    reader.onload = e => {
-      const img = new Image();
-      img.onload = () => {
-        const canvas = document.createElement('canvas');
-        let w = img.width, h = img.height;
-        if (w > maxW) { h = Math.round(h * maxW / w); w = maxW; }
-        canvas.width = w; canvas.height = h;
-        canvas.getContext('2d').drawImage(img, 0, 0, w, h);
-        res(canvas.toDataURL('image/jpeg', quality));
-      };
-      img.src = e.target.result;
-    };
-    reader.readAsDataURL(file);
-  });
-}
+
 
 // ── SESSION ──
 function sav(){if(CU)localStorage.setItem('cs',JSON.stringify({...CU,ts:Date.now()}));}
@@ -711,24 +649,11 @@ async function createMember(){
   const btn=document.getElementById('CB');btn.disabled=true;btn.textContent='⏳ Création...';
   try{
     const id='u'+Date.now();
-    let photoUrl='';
-    // Upload photo if selected
-    if(_photoFile){
-      f.innerHTML='<div class="al ai"><span class="spin"></span> Upload photo...</div>';
-      try {
-        const b64=await imgToBase64(_photoFile, 600, 0.7);
-        const pr=await apiPost({action:'uploadPhoto',base64:b64,filename:_photoFile.name,memberId:id});
-        if(pr.success)photoUrl=pr.url;
-        else f.innerHTML='<div class="al aw">Photo non uploadée: '+pr.error+'. Compte créé sans photo.</div>';
-      } catch(e) {
-        f.innerHTML='<div class="al aw">Photo non uploadée. Compte créé sans photo.</div>';
-      }
-    }
+    const photoUrl=document.getElementById('NF').value.trim();
     const r=await api({action:'addMember',member:JSON.stringify({id,username:u,password:p,name:n,role,photo:photoUrl,level:4})});
     if(r.success){
-      document.getElementById('NN').value='';document.getElementById('NU').value='';document.getElementById('NP').value='';
-      document.getElementById('PPV').style.display='none';document.getElementById('PUT').textContent='📷 Cliquer pour choisir une photo';
-      _photoFile=null;
+      document.getElementById('NN').value='';document.getElementById('NU').value='';
+      document.getElementById('NP').value='';document.getElementById('NF').value='';
       cDel(JSON.stringify({action:'getMembers'}));
       f.innerHTML=`<div class="al as">✅ Compte créé — ID: <strong>${u}</strong> — MDP: <strong>${p}</strong></div>`;
       renderEquipe();
@@ -738,30 +663,15 @@ async function createMember(){
 }
 
 async function editMemberPhoto(id, name){
-  // Show options: upload or Drive link
-  const choice=confirm('Uploader une nouvelle photo depuis votre appareil ?\n\nOK = Upload fichier\nAnnuler = Entrer un lien Drive');
-  if(choice){
-    const input=document.createElement('input');
-    input.type='file';input.accept='image/*';
-    input.onchange=async()=>{
-      const file=input.files[0];if(!file)return;
-      const b64=await imgToBase64(file, 600, 0.7);
-      const r=await apiPost({action:'uploadPhoto',base64:b64,filename:file.name,memberId:id});
-      if(r.success){
-        await api({action:'updateMember',id,field:'photo',value:r.url});
-        cDel(JSON.stringify({action:'getMembers'}));
-        if(CU.id===id){CU.photo=r.url;sav();}
-        alert('✅ Photo mise à jour !');renderEquipe();
-      }else alert('Erreur upload: '+r.error);
-    };
-    input.click();
-  }else{
-    const link=prompt('Lien Google Drive pour '+name+' :');
-    if(!link)return;
-    const r=await api({action:'updateMember',id,field:'photo',value:link.trim()});
-    if(r.success){cDel(JSON.stringify({action:'getMembers'}));if(CU.id===id){CU.photo=link.trim();sav();}alert('✅ Photo mise à jour !');renderEquipe();}
-    else alert(r.error||'Erreur');
-  }
+  const link=prompt('Lien Google Drive pour la photo de '+name+' :\n\n(Drive → clic droit → Obtenir le lien → Toute personne)');
+  if(!link||!link.trim())return;
+  const r=await api({action:'updateMember',id,field:'photo',value:link.trim()});
+  if(r.success){
+    cDel(JSON.stringify({action:'getMembers'}));
+    if(CU.id===id){CU.photo=link.trim();sav();}
+    alert('✅ Photo mise à jour !');
+    renderEquipe();
+  }else alert(r.error||'Erreur');
 }
 
 async function delMember(id){
@@ -785,29 +695,19 @@ function previewActuPhoto(input){
 }
 
 async function publishActu(){
+  const link=document.getElementById('AL2').value.trim();
   const caption=document.getElementById('AC').value.trim();
-  const driveLink=document.getElementById('AL2').value.trim();
   const f=document.getElementById('AF');
-  if(!_actuPhotoFile&&!driveLink){f.innerHTML='<div class="al ae">Choisissez une photo ou entrez un lien Drive.</div>';return;}
+  if(!link){f.innerHTML='<div class="al ae">Veuillez entrer un lien Google Drive.</div>';return;}
   const btn=document.getElementById('AB2');btn.disabled=true;btn.textContent='⏳ Publication...';
   try{
-    let link='';
-    if(_actuPhotoFile){
-      f.innerHTML='<div class="al ai"><span class="spin"></span> Upload en cours...</div>';
-      try {
-        const b64=await imgToBase64(_actuPhotoFile, 1000, 0.8);
-        const pr=await apiPost({action:'uploadPhoto',base64:b64,filename:_actuPhotoFile.name,memberId:'actu_'+Date.now()});
-        if(pr.success)link=pr.url;
-        else{f.innerHTML='<div class="al ae">Erreur upload: '+pr.error+'</div>';btn.disabled=false;btn.textContent='📸 Publier';return;}
-      } catch(e) {
-        f.innerHTML='<div class="al ae">Erreur upload. Utilisez un lien Drive.</div>';btn.disabled=false;btn.textContent='📸 Publier';return;
-      }
-    }else{link=driveLink;}
-    const r=await api({action:'addActualite',actu:JSON.stringify({id:Date.now(),link,caption,author:CU.name,date:new Date().toLocaleDateString('fr-FR',{day:'2-digit',month:'long',year:'numeric'})})});
+    const r=await api({action:'addActualite',actu:JSON.stringify({
+      id:Date.now(),link,caption,author:CU.name,
+      date:new Date().toLocaleDateString('fr-FR',{day:'2-digit',month:'long',year:'numeric'})
+    })});
     if(r.success){
-      document.getElementById('AL2').value='';document.getElementById('AC').value='';
-      document.getElementById('APV').style.display='none';document.getElementById('APT').textContent='📷 Cliquer pour choisir une photo';
-      _actuPhotoFile=null;
+      document.getElementById('AL2').value='';
+      document.getElementById('AC').value='';
       cDel(JSON.stringify({action:'getActualites'}));
       f.innerHTML='<div class="al as">✅ Actualité publiée !</div>';
       renderAdminActu();
